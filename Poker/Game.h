@@ -7,8 +7,6 @@
 
 using namespace std;
 
-
-
 struct Playing_card
 {
     string Card{};
@@ -33,7 +31,7 @@ struct Game_table
     Player One{};
     Player Two{};
 
-    Playing_card Play_deck[9]{};
+    Playing_card Play_deck[5]{};
 
 };
 
@@ -43,8 +41,23 @@ void Print_card(Playing_card& card);
 
 void Print_deck(Deck& deck, int size = 52);
 
+
 void Shuffle_card(Deck& deck, int size = 52);
 
 void Game_deck(Game_table& game, Deck& deck, int size_game = 9);
 
-void Privat_card(Player& one, Player& two, Game_table& game);
+void Privat_card(Player& one, Player& two, Deck& game);
+
+void Player_p_table(Game_table& game, Player& one, Player& two);
+
+Playing_card* Arm(Player& ply, Game_table& game);
+
+void Table(Game_table& game);
+
+void Table_t_2(Game_table& game);
+
+void Table_t_3(Game_table& game);
+
+void Print_Arm(Game_table& game);
+
+void Sort_card(Playing_card* arm, int size);
