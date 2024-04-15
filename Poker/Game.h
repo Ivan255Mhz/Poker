@@ -12,6 +12,10 @@ struct Playing_card
     string Card{};
 
     string Suit{};
+
+    int sort{};
+
+    int su_vel{};
 };
 
 struct Deck
@@ -35,7 +39,7 @@ struct Game_table
 
 };
 
-void Fill_the_deck(Deck& deck, int size_card, int size_suit, std::string* card, std::string* suit);
+void Fill_the_deck(Deck& deck, int size_card, int size_suit, std::string* card, std::string* suit, int* rank_values, int* suit_values);
 
 void Print_card(Playing_card& card);
 
@@ -58,6 +62,16 @@ void Table_t_2(Game_table& game);
 
 void Table_t_3(Game_table& game);
 
-void Print_Arm(Game_table& game);
+void Print_Arm1(Game_table& game);
+
+void Print_Arm2(Game_table& game);
 
 void Sort_card(Playing_card* arm, int size);
+
+bool Senior_card(Playing_card* arm1, Playing_card* arm2);
+
+bool Couple(Playing_card* arm1, Playing_card* arm2);
+
+bool Set(Playing_card* arm1, Playing_card* arm2);
+
+bool Two_pairs(Playing_card* arm);

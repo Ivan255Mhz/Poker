@@ -12,10 +12,11 @@ int main()
     SetConsoleOutputCP(1251);
     string Card[13]{ "2 ","3 ","4 ","5 ","6 ","7 ","8 ","9 ","10","J ","Q ","K ","A " };
     string Suit[4]{ "Крес" ,"Черв","Пики","Буби" };
-
+    int Rank_values[13]{ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
+    int Suit_values[4]{ 1,2,3,4 };
     Deck game;
 
-    Fill_the_deck(game, 13, 4, Card, Suit);// заполнение
+    Fill_the_deck(game, 13, 4, Card, Suit, Rank_values,Suit_values);// заполнение
     Shuffle_card(game);// тасовка
     /*Print_deck(game);*/// вывод колоды
     Game_table one{};// струтура игрального стола
@@ -28,20 +29,23 @@ int main()
     Table(one);
     Table_t_2(one);
     Table_t_3(one);// разные варианты раскада на столе 
-    Print_Arm(one);// печать руки
+    Print_Arm1(one);// печать руки
+    Print_Arm2(one);
     
     Playing_card* arm = Arm(user, one);// массив для проверки на комбинации;
+    Playing_card* arm1 = Arm(pc, one);
     
-    for (int i{}; i < 7; ++i)
-    {
-        Print_card(arm[i]);
-    }
-    cout << endl;
+    
     Sort_card(arm, 7); // сортировка массива
+    Sort_card(arm1, 7);
 
     for (int i{}; i < 7; ++i)
     {
         Print_card(arm[i]);
     }
-  
+    cout << endl;
+    for (int i{}; i < 7; ++i)
+    {
+        Print_card(arm1[i]);
+    }
 }
