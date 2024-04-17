@@ -70,8 +70,20 @@ void Sort_card(Playing_card* arm, int size);
 
 bool Senior_card(Playing_card* arm1, Playing_card* arm2);
 
-bool Couple(Playing_card* arm1, Playing_card* arm2);
+bool Pairs(Playing_card* arm1);
 
-bool Set(Playing_card* arm1, Playing_card* arm2);
+bool Set(Playing_card* arm1);
 
 bool Two_pairs(Playing_card* arm);
+
+bool Straight(Playing_card* arm);
+
+bool Four_of_a_kind(Playing_card* arm);
+
+bool FullHouse(Playing_card* arm);
+
+bool StraightFlush(Playing_card* arm);
+
+bool Royal_flush(Playing_card* arm);
+
+void Check_combo(Playing_card* arm);

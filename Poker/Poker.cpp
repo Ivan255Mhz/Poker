@@ -26,20 +26,20 @@ int main()
     Privat_card(user, pc, game);// раздача приватных карт 
     Player_p_table(one, user, pc);// добовлякм игроковс картами 
     
-    Table(one);
-    Table_t_2(one);
+    /*Table(one);
+    Table_t_2(one);*/
     Table_t_3(one);// разные варианты раскада на столе 
     Print_Arm1(one);// печать руки
-    Print_Arm2(one);
+    /*Print_Arm2(one);*/
     
     Playing_card* arm = Arm(user, one);// массив для проверки на комбинации;
     Playing_card* arm1 = Arm(pc, one);
     
     
-    Sort_card(arm, 7); // сортировка массива
-    Sort_card(arm1, 7);
+    //Sort_card(arm, 7); // сортировка массива
+   /* Sort_card(arm1, 7);*/
 
-    for (int i{}; i < 7; ++i)
+   /* for (int i{}; i < 7; ++i)
     {
         Print_card(arm[i]);
     }
@@ -47,5 +47,14 @@ int main()
     for (int i{}; i < 7; ++i)
     {
         Print_card(arm1[i]);
-    }
-}
+    }*/
+
+
+
+    Check_combo(arm);
+
+
+
+
+} 
+    
