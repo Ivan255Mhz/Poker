@@ -18,24 +18,24 @@ void Fill_the_deck(Deck& deck, int size_card, int size_suit, string* card, strin
 
 
 
-void Print_card(Playing_card& card)//  это больше для проверки
-{
-    cout << "|-------|" << endl;
-    cout << "|       |" << endl;
-    cout << "|   " << card.Card << "  |" << endl;
-    cout <<"| "<< card.Suit <<"  |" << endl;
-    cout << "|       |" << endl;
-    cout << "|-------|" << endl;
-}
-
-void Print_deck(Deck& deck, int size ) // тоже для проверки 
-{
-    for (int i{}; i < size; ++i)
-    {
-        
-        Print_card(deck.Deck_card[i]);
-    }
-}
+//void Print_card(Playing_card& card)//  это больше для проверки
+//{
+//    cout << "|-------|" << endl;
+//    cout << "|       |" << endl;
+//    cout << "|   " << card.Card << "  |" << endl;
+//    cout <<"| "<< card.Suit <<"  |" << endl;
+//    cout << "|       |" << endl;
+//    cout << "|-------|" << endl;
+//}
+//
+//void Print_deck(Deck& deck, int size ) // тоже для проверки 
+//{
+//    for (int i{}; i < size; ++i)
+//    {
+//        
+//        Print_card(deck.Deck_card[i]);
+//    }
+//}
 
 void Shuffle_card(Deck& deck, int size )    // тосовка колоды 
 {
@@ -49,77 +49,102 @@ void Shuffle_card(Deck& deck, int size )    // тосовка колоды
     }
 }
 
-void Game_deck(Game_table& game, Deck& deck, int size_game) // коллода карт для раздачи 
+//void Game_deck(Game_table& game, Deck& deck, int size_game) // коллода карт для раздачи 
+//{
+//    int index = 0;
+//    for (int i = 4; i < size_game; ++i)
+//    {
+//        game.Play_deck[index] = deck.Deck_card[i];
+//        ++index;
+//    }
+//}
+
+//void Privat_card(Player& one, Player& two, Deck& game) // даем карты в руку игрокам 
+//{
+//    one.Privat_card[0] = game.Deck_card[0];
+//    one.Privat_card[1] = game.Deck_card[2];
+//    two.Privat_card[0] = game.Deck_card[1];
+//    two.Privat_card[1] = game.Deck_card[3];
+//
+//}
+
+//void Player_p_table(Game_table& game, Player& one, Player& two) // добовляем игроков к столу 
+//{
+//    game.One = one;
+//    game.Two = two;
+//}
+
+void Apm_game(Deck& deck, Player& one, Player& two, Game_table& game)
 {
     int index = 0;
-    for (int i = 4; i < size_game; ++i)
+    for (int i = 0; i < 4; ++i)
     {
-        game.Play_deck[index] = deck.Deck_card[i];
+        one.Privat_card[i] = deck.Deck_card[index];
+        two.Privat_card[i] = deck.Deck_card[index + 1];
+        index += 2;
+    }
+
+    for (int i = 4; i < 7; ++i)
+    {
+        game.Play_deck[i] = deck.Deck_card[index];
+        one.Privat_card[i] = deck.Deck_card[index];
+        two.Privat_card[i] = deck.Deck_card[index];
         ++index;
     }
-}
 
-void Privat_card(Player& one, Player& two, Deck& game) // даем карты в руку игрокам 
-{
-    one.Privat_card[0] = game.Deck_card[0];
-    one.Privat_card[1] = game.Deck_card[2];
-    two.Privat_card[0] = game.Deck_card[1];
-    two.Privat_card[1] = game.Deck_card[3];
-
-}
-
-void Player_p_table(Game_table& game, Player& one, Player& two) // добовляем игроков к столу 
-{
     game.One = one;
     game.Two = two;
 }
 
-Playing_card* Arm(Player& ply, Game_table& game) // заполнения массива для комбинаций
-{
-    Playing_card* arm = new Playing_card[7]{};
-    int index{};
-    for (int i{}; i < 2; ++i)
-    {
-        arm[index] = ply.Privat_card[i];
-        ++index;
-    }
+//Playing_card* Arm(Player& ply, Game_table& game)
+//{
+//    Playing_card* arm = new Playing_card[7]{};
+//    int index{};
+//    for (int i{}; i < 2; ++i)
+//    {
+//        arm[index] = ply.Privat_card[i];
+//        ++index;
+//    }
+//
+//    for (int i{}; i < 5; ++i)
+//    {
+//        arm[index] = game.Play_deck[i];
+//        ++index;
+//    }
+//
+//    return arm;
+//}
 
-    for (int i{}; i < 5; ++i)
-    {
-        arm[index] = game.Play_deck[i];
-        ++index;
-    }
+    
 
-    return arm;
-}
 
 
 
 void Table(Game_table& game) // 1 этап ставок
 {
-    cout << "  ---Карты на столе тур 1--" << endl;
-    cout << "|---------------------|" << endl;
-    cout << "|  " << game.Play_deck[0].Card << "  |  " << game.Play_deck[1].Card << "  |  " << game.Play_deck[2].Card <<"   |" << endl;
-    cout << "| " << game.Play_deck[0].Suit << " | " << game.Play_deck[1].Suit << " | " << game.Play_deck[2].Suit << "  |" << endl;
-    cout << "|---------------------|" << endl;
+    cout << "\t\t\t\t     ---Карты на столе тур 1---" << endl;
+    cout << "\t\t\t\t       +------+------+------+" << endl;
+    cout << "\t\t\t\t       |  " << game.Play_deck[0].Card << "  |  " << game.Play_deck[1].Card << "  |  " << game.Play_deck[2].Card <<"  |" << endl;
+    cout << "\t\t\t\t       | " << game.Play_deck[0].Suit << " | " << game.Play_deck[1].Suit << " | " << game.Play_deck[2].Suit << " |" << endl;
+    cout << "\t\t\t\t       +------+------+------+" << endl;
 }
 
 void Table_t_2(Game_table& game) // 2 этап ставок 
 {
-    cout << "  ---Карты на столе тур 2--" << endl;
-    cout << "|----------------------------|" << endl;
-    cout << "|  " << game.Play_deck[0].Card << "  |  " << game.Play_deck[1].Card << "  |  " << game.Play_deck[2].Card << "  |  "<< game.Play_deck[3].Card<<"   |" << endl;
-    cout << "| " << game.Play_deck[0].Suit << " | " << game.Play_deck[1].Suit << " | " << game.Play_deck[2].Suit <<" | " <<game.Play_deck[3].Suit <<"  |" << endl;
-    cout << "|----------------------------|" << endl;
+    cout << "\t\t\t\t     ---Карты на столе тур 2---" << endl;
+    cout << "\t\t\t\t    +------+------+------+------+" << endl;
+    cout << "\t\t\t\t    |  " << game.Play_deck[0].Card << "  |  " << game.Play_deck[1].Card << "  |  " << game.Play_deck[2].Card << "  |  "<< game.Play_deck[3].Card<<"  |" << endl;
+    cout << "\t\t\t\t    | " << game.Play_deck[0].Suit << " | " << game.Play_deck[1].Suit << " | " << game.Play_deck[2].Suit <<" | " <<game.Play_deck[3].Suit <<" |" << endl;
+    cout << "\t\t\t\t    +------+------+------+------+" << endl;
 }
 
 void Table_t_3(Game_table& game) // 3 этап ставок 
 {
-    cout << "     ---Карты на столе тур 3--" << endl;
-    cout << "+------+------+------+------+------+" << endl;
-    cout << "|  " << game.Play_deck[0].Card <<  "  |  " << game.Play_deck[1].Card << "  |  " << game.Play_deck[2].Card << "  |  " << game.Play_deck[3].Card << "  |  " << game.Play_deck[4].Card<<"  |" << endl;
-    cout << "| " << game.Play_deck[0].Suit << " | " << game.Play_deck[1].Suit << " | " << game.Play_deck[2].Suit << " | " << game.Play_deck[3].Suit << " | " << game.Play_deck[4].Suit<<" |" << endl;
-    cout << "+------+------+------+------+------+" << endl;
+    cout << "\t\t\t\t     ---Карты на столе тур 3---" << endl;
+    cout << "\t\t\t\t+------+------+------+------+------+" << endl;
+    cout << "\t\t\t\t|  " << game.Play_deck[0].Card <<  "  |  " << game.Play_deck[1].Card << "  |  " << game.Play_deck[2].Card << "  |  " << game.Play_deck[3].Card << "  |  " << game.Play_deck[4].Card<<"  |" << endl;
+    cout << "\t\t\t\t| " << game.Play_deck[0].Suit << " | " << game.Play_deck[1].Suit << " | " << game.Play_deck[2].Suit << " | " << game.Play_deck[3].Suit << " | " << game.Play_deck[4].Suit<<" |" << endl;
+    cout << "\t\t\t\t+------+------+------+------+------+" << endl;
 }
 
 void Print_Arm1(Game_table& game) // принт руки 1 игрока 
@@ -156,17 +181,33 @@ void Sort_card(Playing_card* arm, int size) // сортировка массива для комбинаций
     }
 }
 
-bool Senior_card(Playing_card* arm1, Playing_card *arm2)  // старшая карта 
+void Senior_card(Game_table &game)  // старшая карта 
 {
-    if (arm1[6].sort > arm2[6].sort)
+    Sort_card(game.One.Privat_card, 2);
+    Sort_card(game.Two.Privat_card, 2);
+
+    if (game.One.Privat_card[1].sort > game.Two.Privat_card[1].sort)
     {
-        return true;
+        cout << "Ваша старшая карта сильнее : победа !" << endl;
+    }
+    else if (game.One.Privat_card[1].sort < game.Two.Privat_card[1].sort)
+    {
+        cout << "Ваша старшая карта слабее : проигрыш !" << endl;
+    }
+    else if (game.One.Privat_card[0].sort > game.Two.Privat_card[0].sort)
+    {
+        cout << "Ваша старшая карта сильнее : победа !" << endl;
+    }
+    else if (game.One.Privat_card[0].sort < game.Two.Privat_card[0].sort)
+    {
+        cout << "Ваша старшая карта слабее : проигрыш !" << endl;
     }
     else
     {
-        return false;
+        cout << "Ничья !" << endl;
     }
 }
+
 
 bool Pairs(Playing_card* arm) // пара
 {
@@ -176,7 +217,7 @@ bool Pairs(Playing_card* arm) // пара
         {
             if (arm[i].sort == arm[j].sort) 
             {
-                cout << "Комбинация : пара !"<<endl;
+                
                 return true;
             }
         }
@@ -203,7 +244,7 @@ bool Two_pairs(Playing_card* arm) // 2 пары
 
     if (pairs_count == 2)
     {
-        cout << "Комбинация: 2 пары!" << endl;
+        
         return true;
     }
     else
@@ -225,7 +266,7 @@ bool Set(Playing_card* arm) // сет
     {
         if (rank_counts[i] == 3)
         {
-            cout << "Комбинация : сет !" << endl;
+          
             return true;
         }
     }
@@ -243,7 +284,7 @@ bool Straight(Playing_card* arm)  // стрит
             return false;
         }
     }
-    cout << "Комбинация : стрит !"<<endl;
+    
    return true;
 }
 
@@ -259,7 +300,7 @@ bool Flush(Playing_card* arm) // флеш
             count++;
             if (count == 5)
             {
-                cout << "Комбинация : флеш !" << endl;
+                
                 return true;
             }
         }
@@ -283,7 +324,7 @@ bool Four_of_a_kind(Playing_card* arm) // карэ
     {
         if (rank_counts[i] == 4)
         {
-            cout << "Комбинация: каре!" << endl;
+            
             return true;
         }
     }
@@ -317,7 +358,7 @@ bool FullHouse(Playing_card* arm) // фулхаус
 
     if (has_three_of_a_kind && has_pair)
     {
-        cout << "Комбинация: фул хаус!" << endl;
+       
         return true;
     }
 
@@ -335,7 +376,7 @@ bool StraightFlush(Playing_card* arm) // стрит-флеш
             count++;
             if (count == 5)
             {
-                cout << "Комбинация: стрит-флеш!" << endl;
+                
                 return true;
             }
         }
@@ -352,19 +393,136 @@ bool Royal_flush(Playing_card* arm) // флеш-рояль
    if (arm[0].sort == 10 && arm[1].sort == 11 && arm[2].sort == 12 && arm[3].sort == 13 && arm[4].sort == 14 &&
         arm[0].su_vel == arm[1].su_vel && arm[1].su_vel == arm[2].su_vel && arm[2].su_vel == arm[3].su_vel && arm[3].su_vel == arm[4].su_vel)
     {
-        cout << "Комбинация: Флеш-рояль!" << endl;
+        
         return true;
     }
 
     return false;
 }
 
-void Check_combo(Playing_card* arm)
+void P_Check_combo(Playing_card* arm)
 {
-    Pairs(arm);
-    Two_pairs(arm);
-    Set(arm);
-    Straight(arm);
-    Flush(arm);
+  
+    if (Royal_flush(arm))
+    {
+        cout << "Комбинация : ФЛЕШ РОЯЛЬ!" << endl;
+       
+    }
+    else if (StraightFlush(arm))
+    {
+        cout << "Комбинация : СТРИТ ФЛЕШ!" << endl;
+       
+    }
+    else if (Four_of_a_kind(arm))
+    {
+        cout << "Комбинация : КАРЭ!" << endl;
+       
+    }
+    else if (FullHouse(arm))
+    {
+        cout << "Комбинация : ФУЛЛ ХАУС!" << endl;
+        
+    }
+    else if (Flush(arm))
+    {
+        cout << "Комбинация : ФЛЕШ!" << endl;
+       
+    }
+    else if (Straight(arm))
+    {
+        cout << "Комбинация : СТРИТ!" << endl;
+    }
+    else if (Set(arm))
+    {
+        cout << "Комбинация : СЕТ!" << endl;
+        
+    }
+    else if (Two_pairs(arm))
+    {
+        cout << "Комбинация : ДВЕ ПАРЫ!" << endl;
+    }
+    else if (Pairs(arm))
+    {
+        cout << "Комбинация : ПАРА!" << endl;
+    }
+    
+}
 
+int Combo_val(Playing_card* arm)
+{
+    int val{};
+    if (Royal_flush(arm))
+    {
+        val = 9;
+    }
+    else if (StraightFlush(arm))
+    {
+        val = 8;
+    }
+    else if (Four_of_a_kind(arm))
+    {
+        val = 7;
+    }
+    else if (FullHouse(arm))
+    {
+        val = 6;
+    }
+    else if (Flush(arm))
+    {
+        val = 5;
+    }
+    else if (Straight(arm))
+    {
+        val = 4;
+    }
+    else if (Set(arm))
+    {
+        val = 3;
+    }
+    else if (Two_pairs(arm))
+    {
+        val = 2;
+    }
+    else if (Pairs(arm))
+    {
+        val = 1;
+    }
+
+    return val;
+}
+
+void Win_loss(Game_table& game, Playing_card* arm, Playing_card* arm1)
+{
+    int val_p1 = Combo_val(arm);
+    int val_p2 = Combo_val(arm1);
+
+    if (val_p1 == val_p2)
+    {
+        Senior_card(game);
+    }
+    else if (val_p1 > val_p2)
+    {
+        cout << "Ваша комбинация сильнее : победа !" << endl;
+        game.One.chips += game.bet;
+        game.Two.chips -= game.bet;
+    }
+    else
+    {
+        cout << "Ваша комбинация слабее : проигрыш !" << endl;
+        game.One.chips -= game.bet;
+        game.Two.chips += game.bet;
+    }
+}
+
+void Bet(Player& player, int amount)
+{
+    if (player.chips >= amount)
+    {
+        player.chips -= amount;
+        cout << player.name << " сделал ставку на сумму " << amount << endl;
+    }
+    else
+    {
+        cout << player.name << " не может сделать ставку, недостаточно фишек" << endl;
+    }
 }
