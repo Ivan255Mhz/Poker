@@ -1,5 +1,8 @@
 #include "Game.h"
 
+int bet{};
+enum Result { Lose, Win, Draw };
+
 void Fill_the_deck(Deck& deck, int size_card, int size_suit, string* card, string* suit, int* rank_values, int* suit_values)// создание массива карт
 {
 	int index{};
@@ -81,6 +84,12 @@ void Preparing_game(Deck& deck, Player& one, Player& two, Game_table& game)
 	two.Privat_card[0] = deck.Deck_card[1];
 	two.Privat_card[1] = deck.Deck_card[3];
 
+	one.arm[0] = deck.Deck_card[0];
+	one.arm[1] = deck.Deck_card[2];
+	two.arm[0] = deck.Deck_card[1];
+	two.arm[1] = deck.Deck_card[3];
+
+
 	Game_deck(game, deck);
 	int index{};
 	for (int i = 2; i < 7; ++i)
@@ -89,16 +98,7 @@ void Preparing_game(Deck& deck, Player& one, Player& two, Game_table& game)
 		two.Privat_card[i] = game.Play_deck[index];
 		++index;
 	}
-
-	for (int i{}; i < 2; ++i) // нужно для проверки на старшую карту 
-	{
-		game.One.arm[i] = game.One.Privat_card[i];
-		game.Two.arm[i] = game.Two.Privat_card[i];
-	}
-
-	
-
-	game.One = one;
+    game.One = one;
 	game.Two = two;
 
 }
@@ -162,6 +162,7 @@ void Print_Arm1(Game_table& game) // принт руки 1 игрока
 	cout << "  | " << game.One.Privat_card[0].Suit << " | " << game.One.Privat_card[1].Suit << " |" << endl;
 	cout << "  +------+------+" << endl;
 	Print_chips(game.One);
+	Print_bet(game);
 }
 
 void Print_Arm2(Game_table& game) // принт руки 2 игрока 
@@ -172,6 +173,7 @@ void Print_Arm2(Game_table& game) // принт руки 2 игрока
 	cout << "  | " << game.Two.Privat_card[0].Suit << " | " << game.Two.Privat_card[1].Suit << " |" << endl;
 	cout << "  +-------------+" << endl;
 	Print_chips(game.Two);
+	Print_bet(game);
 }
 
 void Sort_card(Playing_card* arm, int size) // сортировка массива для комбинаций
@@ -190,7 +192,7 @@ void Sort_card(Playing_card* arm, int size) // сортировка массива для комбинаций
 	}
 }
 
-void Senior_card(Game_table& game)  // старшая карта 
+int Senior_card(Game_table& game)  // старшая карта 
 {
 	Sort_card(game.One.arm, 2);
 	Sort_card(game.Two.arm, 2);
@@ -198,22 +200,27 @@ void Senior_card(Game_table& game)  // старшая карта
 	if (game.One.arm[1].sort > game.Two.arm[1].sort)
 	{
 		cout << "Ваша старшая карта сильнее : победа !" << endl;
+		return Win;
 	}
 	else if (game.One.arm[1].sort < game.Two.arm[1].sort)
 	{
 		cout << "Ваша старшая карта слабее : проигрыш !" << endl;
+		return Lose;
 	}
 	else if (game.One.arm[0].sort > game.Two.arm[0].sort)
 	{
 		cout << "Ваша старшая карта сильнее : победа !" << endl;
+		return Win;
 	}
 	else if (game.One.arm[0].sort < game.Two.arm[0].sort)
 	{
 		cout << "Ваша старшая карта слабее : проигрыш !" << endl;
+		return Lose;
 	}
 	else
 	{
 		cout << "Ничья !" << endl;
+		return Draw;
 	}
 }
 
@@ -467,6 +474,34 @@ void P_Check_combo(Playing_card* arm, int size)
 
 }
 
+void Start_Check_combo(Playing_card* arm, int size)
+{
+    if (Two_pairs(arm, size))
+	{
+		cout << "Комбинация : ДВЕ ПАРЫ!" << endl;
+	}
+	else if (Pairs(arm, size))
+	{
+		cout << "Комбинация : ПАРА!" << endl;
+	}
+}
+
+int Start_Combo_val(Playing_card* arm, int size)
+{
+	int val{};
+	
+	if (Two_pairs(arm, size))
+	{
+		val = 2;
+	}
+	else if (Pairs(arm, size))
+	{
+		val = 1;
+	}
+
+	return val;
+}
+
 int Combo_val(Playing_card* arm, int size)
 {
 	int val{};
@@ -510,75 +545,181 @@ int Combo_val(Playing_card* arm, int size)
 	return val;
 }
 
-void Win_loss(Game_table& game, Playing_card* arm, Playing_card* arm1, int size)
+int Win_loss(Game_table& game, Playing_card* arm, Playing_card* arm1, int size)
 {
-	int val_p1 = Combo_val(arm, size);
-	int val_p2 = Combo_val(arm1, size);
+	int val_p1{};
+	int val_p2{};
+	if (size == 2)
+	{
+		int val_p1 = Start_Combo_val(arm, size);
+		int val_p2 = Start_Combo_val(arm1, size);
+	}
+	else
+	{
+		int val_p1 = Combo_val(arm, size);
+		int val_p2 = Combo_val(arm1, size);
+	}
 
 	if (val_p1 == val_p2)
 	{
-		Senior_card(game);
+		int vel= Senior_card(game);
+		if (vel == 0)
+		{
+			return Lose;
+		}
+		else if (vel == 1)
+		{
+			return Win;
+		}
+		else if (vel == 2)
+		{
+			return Draw;
+		}
+		
+		
 	}
 	else if (val_p1 > val_p2)
 	{
 		cout << "Ваша комбинация сильнее : победа !" << endl;
-		game.One.chips += game.bet;
-		game.Two.chips -= game.bet;
+
+		return Win;
 	}
 	else
 	{
 		cout << "Ваша комбинация слабее : проигрыш !" << endl;
-		game.One.chips -= game.bet;
-		game.Two.chips += game.bet;
+		
+		return Lose;
 	}
 }
 
-void Bet(Game_table &game, Player& ply, int amount)
+void Swap_bet(Game_table& game, Player & ply1,Player & ply2, int size)
 {
-	if (ply.chips >= amount)
+	int resul = Win_loss(game, ply1.Privat_card,ply2.Privat_card,2);
+	if (resul==Draw)
 	{
-		ply.chips -= amount;
-		cout << ply.name << "Сделана ставка : " << amount << " фишек" << endl;
-		game.bet += amount;
+		cout << "Ничья ! фишки в количестве " << game.bet << " будут распредлены между игроками !" << endl;;
+		ply1.chips += (game.bet / 2);
+		ply2.chips += (game.bet / 2);
+		game.bet = 0;
+	}
+	else if (resul == Win)
+	{
+		cout << "Победа ! Игрок с именем : " << ply1.name << " забирвет " << game.bet << " фишек";
+		ply1.chips += game.bet;
+		game.bet = 0;
+    }
+	else if (resul == Lose)
+	{
+		cout << "Проигрышь ! Игрок с именем : " << ply2.name << " забирвет " << game.bet << " фишек";
+		ply2.chips += game.bet;
+		game.bet = 0;
+	}
+}
+
+int Bet (Game_table& game, Player & ply)
+{
+	int bet_f{};
+	int choise{};
+	cout << "Выберете ставку : " << endl;
+	cout << "1. 10 фишек" << endl;
+	cout << "2. 25 фишек" << endl;
+	cout << "3. 50 фишек" << endl;
+	cin >> choise;
+	switch (choise)
+	{
+
+	case 1:
+	{
+		if (ply.chips > 10)
+		{
+			bet_f = 10;
+			ply.chips -= bet_f;
+			game.bet += bet_f;
+			cout << "Игрок " << ply.name << " сделал ставку " << bet_f << " фишек" << endl;
+		}
+		else
+		{
+			cout << "У вас недостаточно фишек :(" << endl;
+			return -1;
+		}
+	} break;
+
+	case 2:
+
+	{
+		if (ply.chips > 25)
+		{
+			bet_f = 25;
+			ply.chips -= bet_f;
+			game.bet += bet_f;
+			cout << "Игрок " << ply.name << " сделал ставку " << bet_f << " фишек" << endl;
+		}
+		else
+		{
+			cout << "У вас недостаточно фишек :(" << endl;
+			return -1;
+		}
+	} break;
+
+	case 3:
+
+	{
+		if (ply.chips > 50)
+		{
+			bet_f = 50;
+			ply.chips -= bet_f;
+			game.bet += bet_f;
+			cout << "Игрок " << ply.name << " сделал ставку " << bet_f << " фишек" << endl;
+		}
+		else
+		{
+			cout << "У вас недостаточно фишек :(" << endl;
+			return -1;
+		}
+	}
+
 	
 	}
-	else
-	{
-		cout << ply.name << " не может сделать ставку, недостаточно фишек" << endl;
-	}
+	return bet_f;
 }
+
 
 void Print_chips( Player& ply)
-{
-	cout << endl;
-	cout << "-------------------" << endl;
-	cout << "У вас : " << ply.chips << " фишек" << endl;
-	cout << "-------------------" << endl;
-	cout << endl;
+{	
+	cout << "+--------------------+" << endl;
+	cout << "| У вас : " << ply.chips << " фишек"<<"  |" << endl;
+	cout << "+--------------------+" << endl;
 }
 
-void Phaise_1_ply1(Game_table& game)
+void Print_bet(Game_table& game)
 {
-	static int bet{};
+	cout << "+--------------------+" << endl;
+	cout << "| Ставка : " << game.bet << " фишек" << "  |" << endl;
+	cout << "+--------------------+" << endl;
+}
+
+
+void Phaise_1_ply1(Game_table& game) // старт игры
+{
+	 
 	int choise{};
 
 	Print_Arm1(game);
-	P_Check_combo(game.One.Privat_card,2);
-	cout << "--------------------"<<endl;
-	cout << "Ваше дейсвие : " << endl;
-	cout << " 1. Сделать ставку" << endl;
-	cout << " 2. Выйти из игры" << endl;
-	cout << "--------------------" << endl;
+	Start_Check_combo(game.One.arm,2);
+	
+	cout << "+--------------------+"<<endl;
+	cout << "| Ваше дейсвие :     |" << endl;
+	cout << "| 1. Сделать ставку. |" << endl;
+	cout << "| 2. Выйти из игры.  |" << endl;
+	cout << "+--------------------+" << endl;
 	cin >> choise;
 	switch (choise)
 	{
 	
 	case 1:
 	{
-		  
-		cout << "Ваша ставка : ";
-		cin >> bet;
-		Bet(game,game.One, bet);
+		system("cls");
+		bet = Bet(game, game.One);
 		system("pause");
 		system("cls");
 		Phaise_1_ply2(game);
@@ -599,40 +740,106 @@ void Phaise_1_ply1(Game_table& game)
 
 }
 
-void Phaise_1_ply2(Game_table& game )
+void Phaise_1_ply2(Game_table& game ) // 2 игрок дейсвия 
 {
 	int choise{};
-
-	Print_Arm2(game);
-	cout << "--------------------" << endl;
-	cout << "Ваше дейсвие : " << endl;
-	cout << " 1. Уровнять ставку" << endl;
-	cout << " 2. Повысить ставку" << endl;
-	cout << " 3. Пас" << endl;
-	cout << "--------------------" << endl;
+    Print_Arm2(game);
+	Start_Check_combo(game.Two.arm ,2);
+	
+	cout << "+--------------------+" << endl;
+	cout << "| Ваше дейсвие :     |" << endl;
+	cout << "| 1. Уровнять ставку.|" << endl;
+	cout << "| 2. Повысить ставку.|" << endl;
+	cout << "| 3. Пас             |" << endl; 
+	cout << "+--------------------+" << endl;
 	cin >> choise;
 	switch (choise)
 	{
 
 	case 1:
 	{
-		Bet(game,game.Two, game.bet);
+		game.Two.chips -= bet;
+		game.bet += bet;
+		system("pause");
+		system("cls");
+		Phaise_2_ply1(game);
 	} break;
 
 	case 2:
 	{
-		int bet = (game.bet * 2);
-		Bet(game,game.Two, game.bet);
-		Bet(game,game.One, bet);
+	    bet += 15;
 		system("pause");
 		system("cls");
     } break;
 
 	case 3:
 	{
+		system("cls");
 		cout << "Вы проиграли :(" << endl;
 		game.One.chips += game.bet;
 		cout << "Игрок 1 получвет : " << game.bet << " фишек" << endl;;
+		system("pause");
+		system("cls");
+		game.bet=0;
+		Phaise_1_ply1(game);
+	
+	} break;
+
+
+	default:
+	{
+		cout << "Ошибка ввода, попробуйте еще раз" << endl;
+	}
+	break;
+	}
+}
+
+void Phaise_2_ply1(Game_table& game) // 1 игрок дейсвия в случии уравниваня 2 игрока
+{
+	int choise{};
+	Print_Arm1(game);
+	Start_Check_combo(game.One.arm, 2);
+	cout << "--------------------" << endl;
+	cout << " Ваше дейсвие : " << endl;
+	cout << " 1.Вскрыть карты. " << endl;
+	cout << " 2.Повысить ставку." << endl;
+	cout << " 3.Сыграть на все." << endl;
+	cout << " 4.Пас" << endl;
+	cout << "--------------------" << endl;
+	cin >> choise;
+	switch (choise)
+	{
+
+	case 1:
+	{   
+		system("cls");
+		Swap_bet(game, game.One, game.Two, 2);
+		system("pause");
+		system("cls");
+		Phaise_1_ply1(game);
+		
+	} break;
+
+	case 2:
+	{
+		system("pause");
+		system("cls");
+
+	} break;
+
+	case 3:
+	{
+		
+		system("pause");
+		system("cls");
+	} break;
+
+	case 4:
+	{
+		system("cls");
+		cout << "Вы проиграли :(" << endl;
+		game.Two.chips += game.bet;
+		cout << "Игрок 2 получвет : " << game.bet << " фишек" << endl;;
 		Phaise_1_ply1(game);
 		system("pause");
 		system("cls");
@@ -645,18 +852,21 @@ void Phaise_1_ply2(Game_table& game )
 	}
 	break;
 	}
+
 }
 
-void Phaise_2_ply1(Game_table& game)
+void Phaise_2_1_ply1(Game_table& game) // 1 игрок действия в лучаее повышеня 2 игрока 
 {
 	int choise{};
-	Table(game);
 	Print_Arm1(game);
-	P_Check_combo(game.One.Privat_card, 5);
+	Start_Check_combo(game.One.arm, 2);
 	cout << "--------------------" << endl;
 	cout << "Ваше дейсвие : " << endl;
-	cout << " 1.Уравнять ставку и вскрыться. " << endl;
-	cout << " " << endl;
+	cout << " 1.Уравнять ставку" << endl;
+	cout << " 1.Вскрыть карты. " << endl;
+	cout << " 2.Повысить ставку." << endl;
+	cout << " 3.Сыграть на все." << endl;
+	cout << " 4.Пас" << endl;
 	cout << "--------------------" << endl;
 	cin >> choise;
 	switch (choise)
@@ -664,18 +874,37 @@ void Phaise_2_ply1(Game_table& game)
 
 	case 1:
 	{
-		int bet{};
-		cout << "Ваша ставка : ";
-		cin >> bet;
-		Bet(game, game.One, bet);
+		system("cls");
+		Swap_bet(game, game.One, game.Two, 2);
 		system("pause");
 		system("cls");
-		Phaise_1_ply2(game);
+		Phaise_1_ply1(game);
+
 	} break;
 
 	case 2:
 	{
-		cout << "Выход : " << endl;
+		system("pause");
+		system("cls");
+
+	} break;
+
+	case 3:
+	{
+
+		system("pause");
+		system("cls");
+	} break;
+
+	case 4:
+	{
+		system("cls");
+		cout << "Вы проиграли :(" << endl;
+		game.Two.chips += game.bet;
+		cout << "Игрок 2 получвет : " << game.bet << " фишек" << endl;;
+		Phaise_1_ply1(game);
+		system("pause");
+		system("cls");
 	} break;
 
 

@@ -73,7 +73,7 @@ void Print_Arm2(Game_table& game);
 
 void Sort_card(Playing_card* arm, int size);
 
-void Senior_card(Game_table& game);
+int Senior_card(Game_table& game);
 
 bool Pairs(Playing_card* arm1, int size);
 
@@ -95,12 +95,20 @@ void P_Check_combo(Playing_card* arm, int size);
 
 int Combo_val(Playing_card* arm, int size);
 
-void Win_loss(Game_table& game, Playing_card* arm, Playing_card* arm1, int size);
+int Win_loss(Game_table& game, Playing_card* arm, Playing_card* arm1, int size);
 
-void Bet(Game_table& game, Player& ply, int amount);
+int Bet(Game_table& game, Player& ply);
 
 void Print_chips(Player& ply);
 
 void Phaise_1_ply1(Game_table& game);
 
 void Phaise_1_ply2(Game_table& game);
+
+void Phaise_2_ply1(Game_table& game);
+
+void Print_bet(Game_table& game);
+
+void Start_Check_combo(Playing_card* arm, int size);
+
+int Start_Combo_val(Playing_card* arm, int size);
