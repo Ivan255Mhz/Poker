@@ -1,7 +1,10 @@
 #include "Game.h"
 
 int bet{};
-int locator{};
+
+
+
+
 enum Result { Lose, Win, Draw };
 
 void Fill_the_deck(Deck& deck, int size_card, int size_suit, string* card, string* suit, int* rank_values, int* suit_values)// создание массива карт
@@ -159,22 +162,22 @@ void Table_t_3(Game_table& game) // 3 этап ставок
 
 void Print_Arm1(Game_table& game) // принт руки 1 игрока 
 {
-	cout << " ---Рука 1 игрока---" << endl;
-	cout << "  +------+------+" << endl;
-	cout << "  |  " << game.One.arm[0].Card << "  |  " << game.One.arm[1].Card << "  |" << endl;
-	cout << "  | " << game.One.arm[0].Suit << " | " << game.One.arm[1].Suit << " |" << endl;
-	cout << "  +------+------+" << endl;
+	cout << " ---Рука Игрока "<<game.One.name<<"---" << endl;
+	cout << "    +------+------+" << endl;
+	cout << "    |  " << game.One.arm[0].Card << "  |  " << game.One.arm[1].Card << "  |" << endl;
+	cout << "    | " << game.One.arm[0].Suit << " | " << game.One.arm[1].Suit << " |" << endl;
+	cout << "    +------+------+" << endl;
 	Print_chips(game.One);
 	Print_bet(game);
 }
 
 void Print_Arm2(Game_table& game) // принт руки 2 игрока 
 {
-	cout << " ---Рука 2 игрока---" << endl;
-	cout << "  +-------------+" << endl;
-	cout << "  |  " << game.Two.arm[0].Card << "  |  " << game.Two.arm[1].Card << "  |" << endl;
-	cout << "  | " << game.Two.arm[0].Suit << " | " << game.Two.arm[1].Suit << " |" << endl;
-	cout << "  +-------------+" << endl;
+	cout << " ---Рука Игрока " << game.Two.name << "---" << endl;
+	cout << "    +-------------+" << endl;
+	cout << "    |  " << game.Two.arm[0].Card << "  |  " << game.Two.arm[1].Card << "  |" << endl;
+	cout << "    | " << game.Two.arm[0].Suit << " | " << game.Two.arm[1].Suit << " |" << endl;
+	cout << "    +-------------+" << endl;
 	Print_chips(game.Two);
 	Print_bet(game);
 }
@@ -636,6 +639,7 @@ void Bet(Game_table& game, Player& ply) // ставка
 {
 	
 	int choise{};
+	Print_chips(ply);
 	cout << "+-------------------+" << endl;
 	cout << "| Выберете ставку : |" << endl;
 	cout << "| 1. 10 фишек       |" << endl;
@@ -655,7 +659,17 @@ void Bet(Game_table& game, Player& ply) // ставка
 			ply.chips -= bet;
 			game.bet += bet;
 			system("cls");
+			cout << endl;
 			cout << "Игрок " << ply.name << " сделал ставку " << bet << " фишек" << endl;
+			cout << endl;
+		}
+		else
+		{
+			system("cls");
+			cout << "У вас недостаточно фишек " << endl;
+			system("pause");
+			system("cls");
+			Low_bat(game, ply);
 		}
 
 	} break;
@@ -669,7 +683,17 @@ void Bet(Game_table& game, Player& ply) // ставка
 			ply.chips -= bet;
 			game.bet += bet;
 			system("cls");
+			cout << endl;
 			cout << "Игрок " << ply.name << " сделал ставку " << bet << " фишек" << endl;
+			cout << endl;
+		}
+		else
+		{
+			system("cls");
+			cout << "У вас недостаточно фишек " << endl;
+			system("pause");
+			system("cls");
+			Low_bat(game, ply);
 		}
 
 	} break;
@@ -683,7 +707,17 @@ void Bet(Game_table& game, Player& ply) // ставка
 			ply.chips -= bet;
 			game.bet += bet;
 			system("cls");
+			cout << endl;
 			cout << "Игрок " << ply.name << " сделал ставку " << bet << " фишек" << endl;
+			cout << endl;
+		}
+		else
+		{
+			system("cls");
+			cout << "У вас недостаточно фишек " << endl;
+			system("pause");
+			system("cls");
+			Low_bat(game, ply);
 		}
     }
 
@@ -707,20 +741,140 @@ void Print_bet(Game_table& game) // печать фишек на столе
 
 void Eq_bet(Game_table& game, Player& ply, int  bet) // стравнение ставки
 {
-	ply.chips -= bet;
-	game.bet += bet;
-	cout << "Ваша ставка стравнялась !" << endl;
+	if (ply.chips >= bet)
+	{
+		ply.chips -= bet;
+		game.bet += bet;
+		cout << "Ваша ставка стравнялась !" << endl;
+	}
+	else
+	{
+		system("cls");
+		Low_bat(game, ply);
+	}
 }
 
-int Up_bet(Game_table& game, Player& ply, int& bet) // повышение ставки
+void Low_bat(Game_table& game, Player& ply)
 {
-	bet += 15;
+	int vl{};
+	cout << "У вас осталось " << ply.chips << " фишек поставить их ?" << endl;
+	cout << "    +---------+" << endl;
+	cout << "    | 1. Да.  |" << endl;
+	cout << "    | 2. Нет. |" << endl;
+	cout << "    +---------+" << endl;
+	cout << " Ваше дейсвие : ";
+	cin >> vl;
+	switch (vl)
+	{
+	case 1:
+	{
+		system("cls");
+		bet = ply.chips;
+		game.bet += ply.chips;
+		ply.chips = 0;
+	} break;
 
+	case 2:
+	{
+		system("cls");
+		return;
+
+	} break;
+
+	default:
+	{
+		system("cls");
+		Low_bat(game, ply);
+	} break;
+		
+	}
+
+}
+
+void Up_bet(Game_table& game, Player& ply) // повышение ставки
+{
+	int vl{};
+	Print_bet();
+	Print_chips(ply);
+	cout << "+---------------------------+" << endl;
+	cout << "| 1. Увеличеть на 15 фишек. |" << endl;
+	cout << "| 2. Увеличеть на 20 фишек. |" << endl;
+	cout << "| 3. Увеличеть на 25 фишек. |" << endl;
+	cout << "| 4. Выбрать другое дейсвие.|" << endl;
+	cout << "+---------------------------+" << endl;
+	cout << "     Ваше дейсвие : ";
+	cin >> vl;
+
+	switch (vl)
+	{
+	case 1:
+	{
+		if (ply.chips >= bet + 15)
+		{
+			bet += 15;
+		}
+		else
+		{
+			system("cls");
+			cout << "У вас недостаточно фишек " << endl;
+			system("pause");
+			system("cls");
+			Low_bat(game, ply);
+		}
+		
+	} break;
+
+	case 2:
+	{
+		if (ply.chips >= bet + 20)
+		{
+			bet += 20;
+		}
+		else
+		{
+			system("cls");
+			cout << "У вас недостаточно фишек " << endl;
+			system("pause");
+			system("cls");
+			Low_bat(game, ply);
+		}
+	} break;
+
+	case 3:
+	{
+		if (ply.chips >= bet + 25)
+		{
+			bet += 25;
+		}
+		else
+		{
+			system("cls");
+			cout << "У вас недостаточно фишек " << endl;
+			system("pause");
+			system("cls");
+			Low_bat(game, ply);
+		}
+	} break;
+
+	case 4:
+	{
+		system("cls");
+		return;
+	}
+
+	default:
+	{
+		system("cls");
+		Up_bet(game, ply);
+	} break;
+
+	}
 	ply.chips -= bet;
 	game.bet += bet;
 	system("cls");
+	cout << endl;
 	cout << "Ставка была повышена до " << bet << " фишек" <<endl ; 
-	return bet;
+	cout << endl;
 }
 
 void Pas_bet(Game_table& game, Player& ply) // пас игрока
@@ -731,24 +885,71 @@ void Pas_bet(Game_table& game, Player& ply) // пас игрока
 	cout << "Проигрыш , фишки получает игрок " << ply.name << endl;
 }
 
-
-
-void Coin_flip(Game_table& game)
+void Print_bet()
 {
+	cout << "Преведущая ставка" << endl;
+	cout << "+-----------------+" << endl;
+	cout << "  " << bet << "   " << endl;
+	cout << "+-----------------+" << endl;
+
+}
+
+
+
+void Coin_flip(Game_table& game, Deck &stack) // подброс монетки
+{
+	Game_over(game, stack);
+	Shuffle_card(stack);
+	Preparing_game(stack, game.One, game.Two, game);
+
 	bool val = rand() % 2;
 
 	if (val)
 	{
-		Start_p1(game);
+		cout << "К столу приглашается игрок " << game.One.name << endl;
+		system("pause");
+		system("cls");
+		Start_p1(game, stack);
 	}
 	else
 	{
-		Start_p2(game);
+		cout << "К столу приглашается игрок " << game.Two.name << endl;
+		system("pause");
+		system("cls");
+		Start_p2(game, stack);
+	}
+}
+
+void Game_over(Game_table& game, Deck& stack)
+{
+	if (game.One.chips == 0)
+	{
+		
+		cout << "+----------------------------------------+" << endl;
+		cout << "| У вас конечелись фишки , вы проиграли !|" << endl;
+		cout << "+----------------------------------------+" << endl;
+		system("pause");
+		game.One.chips = 250;
+		game.Two.chips = 250;
+		Menu(game, stack);
+	
+	}
+
+	if (game.Two.chips == 0)
+	{
+		cout << "+----------------------------------------+"<<endl;
+		cout << "| У вас конечелись фишки , вы проиграли !|" << endl;
+		cout << "+----------------------------------------+"<<endl;
+		system("pause");
+		game.One.chips = 250;
+		game.Two.chips = 250;
+		Menu(game, stack);
 	}
 }
 
 
-void Menu(Game_table& game) // меню
+
+void Menu(Game_table& game, Deck& stack) // меню
 {
 	int choise{};
 	do
@@ -766,8 +967,9 @@ void Menu(Game_table& game) // меню
 
 		case 1:
 		{
+			
 			system("cls");
-			Coin_flip(game);
+			Coin_flip(game, stack);
 		} break;
 
 		case 2:
@@ -788,7 +990,7 @@ void Menu(Game_table& game) // меню
 	} while (choise != 3);
 }
 
-void Start_p1(Game_table& game)
+void Start_p1(Game_table& game, Deck& stack)
 {
 	int p1{};
 	Print_Arm1(game);
@@ -807,7 +1009,7 @@ void Start_p1(Game_table& game)
 		Bet(game, game.One);
 		system("pause");
 		system("cls");
-		Start2_p2(game);
+		Start2_p2(game, stack);
 
 	} break;
 
@@ -817,13 +1019,13 @@ void Start_p1(Game_table& game)
 		Pas_bet(game, game.Two);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 	} break;
 	
 	}
 }
 
-void Start2_p1(Game_table& game)
+void Start2_p1(Game_table& game, Deck& stack)
 {
 	int p1{};
 	Print_Arm1(game);
@@ -843,16 +1045,16 @@ void Start2_p1(Game_table& game)
 		Eq_bet(game, game.One,bet);
 		system("pause");
 		system("cls");
-		Erl_p2(game);
+		Erl_p2(game, stack);
 	} break;
 
 	case 2:
 	{
 		system("cls");
-		Up_bet(game, game.One, bet);
+		Up_bet(game, game.One);
 		system("pause");
 		system("cls");
-		Start2_p2(game);
+		Start2_p2(game, stack);
 	} break;
 
 	case 3:
@@ -861,13 +1063,13 @@ void Start2_p1(Game_table& game)
 		Pas_bet(game, game.Two);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game,stack);
 	} break;
 
 	}
 }
 
-void Start_p2(Game_table& game)
+void Start_p2(Game_table& game, Deck& stack)
 {
 	int p2{};
 	Print_Arm2(game);
@@ -886,7 +1088,7 @@ void Start_p2(Game_table& game)
 		Bet(game, game.Two);
 		system("pause");
 		system("cls");
-		Start2_p1(game);
+		Start2_p1(game, stack);
 	} break;
 
 	case 2:
@@ -895,13 +1097,13 @@ void Start_p2(Game_table& game)
 		Pas_bet(game, game.One);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 	} break;
 
 	}
 }
 
-void Start2_p2(Game_table& game)
+void Start2_p2(Game_table& game, Deck& stack)
 {
 	int p2{};
 	Print_Arm2(game);
@@ -921,17 +1123,17 @@ void Start2_p2(Game_table& game)
 		Eq_bet(game, game.Two, bet);
 		system("pause");
 		system("cls");
-		Erl_p1(game);
+		Erl_p1(game, stack);
 
 	} break;
 
 	case 2:
 	{
 		system("cls");
-		Up_bet(game, game.Two, bet);
+		Up_bet(game, game.Two);
 		system("pause");
 		system("cls");
-		Start2_p1(game);
+		Start2_p1(game, stack);
 	} break;
 
 	case 3:
@@ -940,13 +1142,13 @@ void Start2_p2(Game_table& game)
 		Pas_bet(game, game.One);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 	} break;
 
 	}
 }
 
-void Erl_p1(Game_table& game)
+void Erl_p1(Game_table& game, Deck& stack)
 {
 	int p1{};
 	Table(game);
@@ -965,16 +1167,16 @@ void Erl_p1(Game_table& game)
 	case 1:
 	{
 		system("cls");
-		Up_bet(game, game.One, bet);
+		Up_bet(game, game.One);
 		system("pause");
 		system("cls");
-		Erl2_p2(game);
+		Erl2_p2(game, stack);
 	} break;
 
 	case 2:
 	{
 		system("cls");
-		Erl_WL_p1(game);
+		Erl_WL_p1(game,stack);
 	} break;
 
 	case 3:
@@ -983,19 +1185,19 @@ void Erl_p1(Game_table& game)
 		Pas_bet(game, game.Two);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 	} break;
 
 	case 4:
 	{
-		Erl_pas_p1(game);
+		Erl_pas_p1(game, stack);
 	} break;
 
 	}
 
 }
 
-void Erl_WL_p1(Game_table& game)
+void Erl_WL_p1(Game_table& game, Deck& stack)
 {
 	int val{};
 	cout << "+----------------------------------------------------+" << endl;
@@ -1015,19 +1217,19 @@ void Erl_WL_p1(Game_table& game)
 		Win_loss(game, game.Two, game.One, 5);
 		Swap_bet(game, game.Two, game.One, 5);
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
     } break;
 
 	case 2:
 	{
 		system("cls");
-		Erl_p2(game);
+		Erl_p2(game, stack);
 	} break;
 	
 	}
 }
 
-void Erl_pas_p1(Game_table& game)
+void Erl_pas_p1(Game_table& game, Deck &stack)
 {
 	int val{};
 	cout << "+------------------------------------------------------+" << endl;
@@ -1044,20 +1246,20 @@ void Erl_pas_p1(Game_table& game)
 	case 1:
 	{
 		system("cls");
-		Mid_p2(game);
+		Mid_p2(game, stack);
 		
 	} break;
 
 	case 2:
 	{
 		system("cls");
-		Erl_p2(game);
+		Erl_p2(game, stack);
 	} break;
 
 	}
 }
 
-void Erl2_p1(Game_table& game)
+void Erl2_p1(Game_table& game, Deck& stack)
 {
 	int p1{};
 	Table(game);
@@ -1078,17 +1280,17 @@ void Erl2_p1(Game_table& game)
 		Eq_bet(game, game.One, bet);
 		system("pause");
 		system("cls");
-		Mid_p2(game);
+		Mid_p2(game, stack);
 		
 	} break;
 
 	case 2:
 	{
 		system("cls");
-		Up_bet(game, game.One, bet);
+		Up_bet(game, game.One);
 		system("pause");
 		system("cls");
-		Erl2_p2(game);
+		Erl2_p2(game, stack);
 
 	} break;
 
@@ -1098,7 +1300,7 @@ void Erl2_p1(Game_table& game)
 		Pas_bet(game, game.Two);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 	} break;
 
 	
@@ -1107,7 +1309,7 @@ void Erl2_p1(Game_table& game)
 
 }
    
-void Erl_p2(Game_table& game)
+void Erl_p2(Game_table& game, Deck& stack)
 {
 	int p2{};
 	Table(game);
@@ -1126,16 +1328,16 @@ void Erl_p2(Game_table& game)
 	case 1:
 	{
 		system("cls");
-		Up_bet(game, game.Two, bet);
+		Up_bet(game, game.Two);
 		system("pause");
 		system("cls");
-		Erl2_p1(game);
+		Erl2_p1(game, stack);
 	} break;
 
 	case 2:
 	{
 		system("cls");
-		Erl_WL_p2(game);
+		Erl_WL_p2(game, stack);
 	} break;
 
 	case 3:
@@ -1144,20 +1346,20 @@ void Erl_p2(Game_table& game)
 		Pas_bet(game, game.One);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 	} break;
 
 	case 4:
 	{
 		system("cls");
-		Erl_pas_p2(game);
+		Erl_pas_p2(game, stack);
 	} break;
 
 	}
 
 }
 
-void Erl_WL_p2(Game_table& game)
+void Erl_WL_p2(Game_table& game, Deck& stack)
 {
 	int val{};
 	cout << "+----------------------------------------------------+" << endl;
@@ -1178,19 +1380,19 @@ void Erl_WL_p2(Game_table& game)
 		Swap_bet(game, game.One, game.Two, 5);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 	} break;
 
 	case 2:
 	{
 		system("cls");
-		Erl_p1(game);
+		Erl_p1(game, stack);
 	} break;
 
 	}
 }
 
-void Erl_pas_p2(Game_table& game)
+void Erl_pas_p2(Game_table& game, Deck &stack)
 {
 	int val{};
 	cout << "+------------------------------------------------------+" << endl;
@@ -1207,20 +1409,20 @@ void Erl_pas_p2(Game_table& game)
 	case 1:
 	{
 		system("cls");
-		Mid_p1(game);
+		Mid_p1(game, stack);
 
 	} break;
 
 	case 2:
 	{
 		system("cls");
-		Erl_p2(game);
+		Erl_p2(game, stack);
 	} break;
 
 	}
 }
 
-void Erl2_p2(Game_table& game)
+void Erl2_p2(Game_table& game, Deck& stack)
 {
 	int p2{};
 	Table(game);
@@ -1241,17 +1443,17 @@ void Erl2_p2(Game_table& game)
 		Eq_bet(game, game.Two, bet);
 		system("pause");
 		system("cls");
-		Mid_p1(game);
+		Mid_p1(game, stack);
 
 	} break;
 
 	case 2:
 	{
 		system("cls");
-		Up_bet(game, game.Two, bet);
+		Up_bet(game, game.Two);
 		system("pause");
 		system("cls");
-		Erl2_p1(game);
+		Erl2_p1(game, stack);
 	} break;
 
 	case 3:
@@ -1260,7 +1462,7 @@ void Erl2_p2(Game_table& game)
 		Pas_bet(game, game.One);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 	} break;
 
 
@@ -1269,7 +1471,7 @@ void Erl2_p2(Game_table& game)
 
 }
 
-void Mid_p1(Game_table& game)
+void Mid_p1(Game_table& game, Deck& stack)
 {
 	int p1{};
 	Table_t_2(game);
@@ -1288,16 +1490,16 @@ void Mid_p1(Game_table& game)
 	case 1:
 	{
 		system("cls");
-		Up_bet(game, game.One, bet);
+		Up_bet(game, game.One);
 		system("pause");
 		system("cls");
-		Mid2_p2(game);
+		Mid2_p2(game, stack);
 	} break;
 
 	case 2:
 	{
 		system("cls");
-		Mid_WL_p1(game);
+		Mid_WL_p1(game, stack);
 	} break;
 
 	case 3:
@@ -1306,20 +1508,20 @@ void Mid_p1(Game_table& game)
 		Pas_bet(game, game.Two);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 	} break;
 
 	case 4:
 	{
 		system("cls");
-		Mid_pas_p1(game);
+		Mid_pas_p1(game, stack);
 		
 	} break;
 
 	}
 }
 
-void Mid_WL_p1(Game_table& game)
+void Mid_WL_p1(Game_table& game, Deck& stack)
 {
 	int val{};
 	cout << "+----------------------------------------------------+" << endl;
@@ -1340,19 +1542,19 @@ void Mid_WL_p1(Game_table& game)
 		Swap_bet(game, game.Two, game.One, 6);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 	} break;
 
 	case 2:
 	{
 		system("cls");
-		Mid_p2(game);
+		Mid_p2(game, stack);
 	} break;
 
 	}
 }
 
-void Mid_pas_p1(Game_table& game)
+void Mid_pas_p1(Game_table& game, Deck& stack)
 {
 	int val{};
 	cout << "+------------------------------------------------------+" << endl;
@@ -1369,20 +1571,20 @@ void Mid_pas_p1(Game_table& game)
 	case 1:
 	{
 		system("cls");
-		Lt_p2(game);
+		Lt_p2(game, stack);
 
 	} break;
 
 	case 2:
 	{
 		system("cls");
-		Mid_p2(game);
+		Mid_p2(game, stack);
 	} break;
 
 	}
 }
 
-void Mid2_p1(Game_table& game)
+void Mid2_p1(Game_table& game, Deck& stack)
 {
 	int p1{};
 	Table_t_2(game);
@@ -1403,16 +1605,16 @@ void Mid2_p1(Game_table& game)
 		Eq_bet(game, game.One, bet);
 		system("pause");
 		system("cls");
-		Lt_p2(game);
+		Lt_p2(game, stack);
 	} break;
 
 	case 2:
 	{
 		system("cls");
-		Up_bet(game, game.One, bet);
+		Up_bet(game, game.One);
 		system("pause");
 		system("cls");
-		Mid2_p2(game);
+		Mid2_p2(game, stack);
 
 	} break;
 
@@ -1422,7 +1624,7 @@ void Mid2_p1(Game_table& game)
 		Pas_bet(game, game.Two);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 	} break;
 
 
@@ -1431,7 +1633,7 @@ void Mid2_p1(Game_table& game)
 
 }
 
-void Mid_p2(Game_table& game)
+void Mid_p2(Game_table& game, Deck& stack)
 {
 	int p2{};
 	Table_t_2(game);
@@ -1450,17 +1652,17 @@ void Mid_p2(Game_table& game)
 	case 1:
 	{
 		system("cls");
-		Up_bet(game, game.One, bet);
+		Up_bet(game, game.One);
 		system("pause");
 		system("cls");
-		Mid2_p1(game);
+		Mid2_p1(game, stack);
 		
 	} break;
 
 	case 2:
 	{
 		system("cls");
-		Mid_WL_p2(game);
+		Mid_WL_p2(game, stack);
 	} break;
 
 	case 3:
@@ -1469,20 +1671,20 @@ void Mid_p2(Game_table& game)
 		Pas_bet(game, game.One);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 	} break;
 
 	case 4:
 	{
 		system("cls");
-		Mid_pas_p2(game);
+		Mid_pas_p2(game, stack);
 		
 	} break;
 
 	}
 }
 
-void Mid_WL_p2(Game_table& game)
+void Mid_WL_p2(Game_table& game, Deck& stack)
 {
 	int val{};
 	cout << "+----------------------------------------------------+" << endl;
@@ -1503,19 +1705,19 @@ void Mid_WL_p2(Game_table& game)
 		Swap_bet(game, game.One, game.Two, 6);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 	} break;
 
 	case 2:
 	{
 		system("cls");
-		Mid_p1(game);
+		Mid_p1(game, stack);
 	} break;
 
 	}
 }
 
-void Mid_pas_p2(Game_table& game)
+void Mid_pas_p2(Game_table& game, Deck& stack)
 {
 	int val{};
 	cout << "+------------------------------------------------------+" << endl;
@@ -1532,20 +1734,20 @@ void Mid_pas_p2(Game_table& game)
 	case 1:
 	{
 		system("cls");
-		Lt_p1(game);
+		Lt_p1(game, stack);
 
 	} break;
 
 	case 2:
 	{
 		system("cls");
-		Mid_p1(game);
+		Mid_p1(game, stack);
 	} break;
 
 	}
 }
 
-void Mid2_p2(Game_table& game)
+void Mid2_p2(Game_table& game, Deck& stack)
 {
 	int p2{};
 	Table_t_2(game);
@@ -1566,16 +1768,16 @@ void Mid2_p2(Game_table& game)
 		Eq_bet(game, game.Two, bet);
 		system("pause");
 		system("cls");
-		Lt_p1(game);
+		Lt_p1(game, stack);
 	} break;
 
 	case 2:
 	{
 		system("cls");
-		Up_bet(game, game.Two, bet);
+		Up_bet(game, game.Two);
 		system("pause");
 		system("cls");
-		Mid2_p1(game);
+		Mid2_p1(game, stack);
 
 	} break;
 
@@ -1585,7 +1787,7 @@ void Mid2_p2(Game_table& game)
 		Pas_bet(game, game.One);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 	} break;
 
 
@@ -1594,7 +1796,7 @@ void Mid2_p2(Game_table& game)
 
 }
 
-void Lt_p1(Game_table& game)
+void Lt_p1(Game_table& game, Deck& stack)
 {
 	int p1{};
 	Table_t_3(game);
@@ -1613,17 +1815,17 @@ void Lt_p1(Game_table& game)
 	case 1:
 	{
 		system("cls");
-		Up_bet(game, game.One, bet);
+		Up_bet(game, game.One);
 		system("pause");
 		system("cls");
-		Lt2_p2(game);
+		Lt2_p2(game, stack);
 		
 	} break;
 
 	case 2:
 	{
 		system("cls");
-		Lt_WL_p1(game);
+		Lt_WL_p1(game, stack);
 		
 	} break;
 
@@ -1633,19 +1835,19 @@ void Lt_p1(Game_table& game)
 		Pas_bet(game, game.Two);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 	} break;
 
 	case 4:
 	{
 		system("cls");
-		Lt_WL_p1(game);
+		Lt_WL_p1(game, stack);
 	} break;
 
 	}
 }
 
-void Lt_WL_p1(Game_table& game)
+void Lt_WL_p1(Game_table& game, Deck& stack)
 {
 	int val{};
 	cout << "+----------------------------------------------------+" << endl;
@@ -1666,19 +1868,19 @@ void Lt_WL_p1(Game_table& game)
 		Swap_bet(game, game.Two, game.One, 7);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 	} break;
 
 	case 2:
 	{
 		system("cls");
-		Lt_p2(game);
+		Lt_p2(game, stack);
 	} break;
 
 	}
 }
 
-void Lt2_p1(Game_table& game)
+void Lt2_p1(Game_table& game, Deck& stack)
 {
 	int p1{};
 	Table_t_3(game);
@@ -1703,7 +1905,7 @@ void Lt2_p1(Game_table& game)
 		Swap_bet(game, game.One, game.Two, 7);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 
 		
 	} break;
@@ -1711,10 +1913,10 @@ void Lt2_p1(Game_table& game)
 	case 2:
 	{
 		system("cls");
-		Up_bet(game, game.One, bet);
+		Up_bet(game, game.One);
 		system("pause");
 		system("cls");
-		Lt2_p2(game);
+		Lt2_p2(game, stack);
 		
 
 	} break;
@@ -1725,7 +1927,7 @@ void Lt2_p1(Game_table& game)
 		Pas_bet(game, game.Two);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 	} break;
 
 
@@ -1733,7 +1935,7 @@ void Lt2_p1(Game_table& game)
 	}
 }
 
-void Lt_p2(Game_table& game)
+void Lt_p2(Game_table& game, Deck& stack)
 {
 	int p2{};
 	Table_t_3(game);
@@ -1752,17 +1954,17 @@ void Lt_p2(Game_table& game)
 	case 1:
 	{
 		system("cls");
-		Up_bet(game, game.Two, bet);
+		Up_bet(game, game.Two);
 		system("pause");
 		system("cls");
-		Lt2_p1(game);
+		Lt2_p1(game, stack);
 
 	} break;
 
 	case 2:
 	{
 		system("cls");
-		Lt_WL_p2(game);
+		Lt_WL_p2(game, stack);
 
 	} break;
 
@@ -1772,20 +1974,20 @@ void Lt_p2(Game_table& game)
 		Pas_bet(game, game.One);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 	} break;
 
 	case 4:
 	{
 		system("cls");
-		Lt_WL_p2(game);
+		Lt_WL_p2(game, stack);
 	} break;
 
 	}
 
 }
 
-void Lt_WL_p2(Game_table& game)
+void Lt_WL_p2(Game_table& game, Deck& stack)
 {
 	int val{};
 	cout << "+----------------------------------------------------+" << endl;
@@ -1806,22 +2008,22 @@ void Lt_WL_p2(Game_table& game)
 		Swap_bet(game, game.One, game.Two, 7);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 	} break;
 
 	case 2:
 	{
 		system("cls");
-		Lt_p1(game);
+		Lt_p1(game, stack);
 	} break;
 
 	}
 }
 
-void Lt2_p2(Game_table& game)
+void Lt2_p2(Game_table& game, Deck& stack)
 {
 	int p2{};
-	Table(game);
+	Table_t_3(game);
 	Print_Arm2(game);
 	P_Check_combo(game.Two, 7);
 	cout << "+---------------------+" << endl;
@@ -1843,7 +2045,7 @@ void Lt2_p2(Game_table& game)
 		Swap_bet(game, game.Two, game.One, 7);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 
 
 	} break;
@@ -1851,10 +2053,10 @@ void Lt2_p2(Game_table& game)
 	case 2:
 	{
 		system("cls");
-		Up_bet(game, game.Two, bet);
+		Up_bet(game, game.Two);
 		system("pause");
 		system("cls");
-		Lt2_p1(game);
+		Lt2_p1(game, stack);
 
 
 	} break;
@@ -1865,7 +2067,7 @@ void Lt2_p2(Game_table& game)
 		Pas_bet(game, game.One);
 		system("pause");
 		system("cls");
-		Coin_flip(game);
+		Coin_flip(game, stack);
 	} break;
 
 

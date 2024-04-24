@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "Game.h"
 
+
 using namespace std;
 
 int main()
@@ -15,17 +16,14 @@ int main()
     string Suit[4]{ "Крес" ,"Черв","Пики","Буби" };
     int Rank_values[13]{ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
     int Suit_values[4]{ 1,2,3,4 };
-    
+    Deck stack;
      // НАЧАЛО ИГРЫ
 
-    Deck stack; // создание колоды 
-    Fill_the_deck(stack, 13, 4, Card, Suit, Rank_values, Suit_values); // заполнение коллоды
+    
+    Fill_the_deck( stack, 13, 4, Card, Suit, Rank_values, Suit_values); // заполнение коллоды
     Shuffle_card(stack);
     Player one; // создание игроков 
     Player two;
-    Game_table game; // создание игрального стола 
-    Preparing_game(stack, one, two, game); // подготовка к игре ( раздача карт игрокам + их сортировка , на стол , и добовление игроков к столу )
-   
     string ply1{};
     string ply2{};
     cout << "Введите имя Игрока №1 : ";
@@ -34,6 +32,10 @@ int main()
     cin >> ply2;
     one.name = ply1;
     two.name = ply2;
+    Game_table game; // создание игрального стола 
+    Preparing_game(stack, one, two, game); // подготовка к игре ( раздача карт игрокам + их сортировка , на стол , и добовление игроков к столу )
+   
+    
     system("cls");
 
     cout << "\t\t\tКурсовая работа \"Покер\" : студент Беляев Иван Александрович" << endl;
@@ -42,7 +44,7 @@ int main()
 
     bool bet[4]{ false };
 
-    Menu(game);
+    Menu(game,stack);
 
 }
 

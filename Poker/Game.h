@@ -26,10 +26,12 @@ struct Deck
 
 struct Player
 {
-    int chips{ 250 };
-    string name{};
+    int chips{ 1000 };
+    string name;
     Playing_card Privat_card[7]{};
     Playing_card arm[7]{};
+
+   
 };
 
 struct Game_table
@@ -43,24 +45,20 @@ struct Game_table
 
 };
 
+
+
+
 void Fill_the_deck(Deck& deck, int size_card, int size_suit, std::string* card, std::string* suit, int* rank_values, int* suit_values);
 
 void Print_card(Playing_card& card);
 
 void Print_deck(Deck& deck, int size = 52);
 
-
 void Shuffle_card(Deck& deck, int size = 52);
 
 void Preparing_game(Deck& deck, Player& one, Player& two, Game_table& game);
 
 void Game_deck(Game_table& game, Deck& deck, int size_game = 9);
-
-//void Privat_card(Player& one, Player& two, Deck& game);
-
-//void Player_p_table(Game_table& game, Player& one, Player& two);
-
-//Playing_card* Arm(Player& ply, Game_table& game);
 
 void Table(Game_table& game);
 
@@ -112,64 +110,70 @@ int Start_Combo_val(Player ply, int size);
 
 void Eq_bet(Game_table& game, Player& ply, int  bet);
 
-int Up_bet(Game_table& game, Player& ply, int &bet);
+void Up_bet(Game_table& game, Player& ply);
 
-void Menu(Game_table& game);
+void Menu(Game_table& game, Deck& stack);
 
 void Pas_bet(Game_table& game, Player& ply);
 
-void Coin_flip(Game_table& game);
+void Coin_flip(Game_table& game, Deck& stack);
 
-void Start_p1(Game_table& game);
+void Start_p1(Game_table& game, Deck& stack);
 
-void Start2_p1(Game_table& game);
+void Start2_p1(Game_table& game, Deck& stack);
 
-void Start_p2(Game_table& game);
+void Start_p2(Game_table& game, Deck& stack);
 
-void Start2_p2(Game_table& game);
+void Start2_p2(Game_table& game, Deck& stack);
 
-void Erl_p1(Game_table& game);
+void Erl_p1(Game_table& game, Deck& stack);
 
-void Erl2_p1(Game_table& game);
+void Erl2_p1(Game_table& game, Deck& stack);
 
-void Erl_p2(Game_table& game);
+void Erl_p2(Game_table& game, Deck& stack);
 
-void Erl2_p2(Game_table& game);
+void Erl2_p2(Game_table& game, Deck& stack);
 
-void Mid_p1(Game_table& game);
+void Mid_p1(Game_table& game, Deck& stack);
 
-void Mid2_p1(Game_table& game);
+void Mid2_p1(Game_table& game, Deck& stack);
 
-void Mid_p2(Game_table& game);
+void Mid_p2(Game_table& game, Deck& stack);
 
-void Mid2_p2(Game_table& game);
+void Mid2_p2(Game_table& game, Deck& stack);
 
-void Erl_WL_p1(Game_table& game);
+void Erl_WL_p1(Game_table& game, Deck& stack);
 
-void Erl_WL_p2(Game_table& game);
+void Erl_WL_p2(Game_table& game, Deck& stack);
 
-void Erl_pas_p1(Game_table& game);
+void Erl_pas_p1(Game_table& game, Deck& stack);
 
-void Erl_pas_p2(Game_table& game);
+void Erl_pas_p2(Game_table& game, Deck& stack);
 
-void Mid_WL_p1(Game_table& game);
+void Mid_WL_p1(Game_table& game, Deck& stack);
 
-void Erl_pas_p1(Game_table& game);
+void Erl_pas_p1(Game_table& game, Deck& stack);
 
-void Mid_WL_p2(Game_table& game);
+void Mid_WL_p2(Game_table& game, Deck& stack);
 
-void Lt_WL_p1(Game_table& game);
+void Lt_WL_p1(Game_table& game, Deck& stack);
 
-void Lt_WL_p2(Game_table& game);
+void Lt_WL_p2(Game_table& game, Deck& stack);
 
-void Lt_p1(Game_table& game);
+void Lt_p1(Game_table& game, Deck& stack);
 
-void Lt2_p1(Game_table& game);
+void Lt2_p1(Game_table& game, Deck& stack);
 
-void Lt_p2(Game_table& game);
+void Lt_p2(Game_table& game, Deck& stack);
 
-void Lt2_p2(Game_table& game);
+void Lt2_p2(Game_table& game, Deck& stack);
 
-void Mid_pas_p2(Game_table& game);
+void Mid_pas_p2(Game_table& game, Deck& stack);
 
-void Mid_pas_p1(Game_table& game);
+void Mid_pas_p1(Game_table& game, Deck& stack);
+
+void Game_over(Game_table& game, Deck& stack);
+
+void Low_bat(Game_table& game, Player& ply);
+
+void Print_bet();
