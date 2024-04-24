@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include <random>
 #include <algorithm>
+#include <iomanip>
 
 using namespace std;
 
@@ -25,10 +26,10 @@ struct Deck
 
 struct Player
 {
-    int chips{ 100 };
+    int chips{ 250 };
     string name{};
     Playing_card Privat_card[7]{};
-    Playing_card arm[2]{};
+    Playing_card arm[7]{};
 };
 
 struct Game_table
@@ -73,42 +74,102 @@ void Print_Arm2(Game_table& game);
 
 void Sort_card(Playing_card* arm, int size);
 
-int Senior_card(Game_table& game);
+ int Senior_card(Game_table& game, Player& ply1, Player& ply2);
 
-bool Pairs(Playing_card* arm1, int size);
+ bool Pairs(Player ply, int size);
 
-bool Set(Playing_card* arm1 ,int size);
+ bool Set(Player ply, int size);
 
-bool Two_pairs(Playing_card* arm, int size);
+bool Two_pairs(Player ply, int size);
 
-bool Straight(Playing_card* arm, int size);
+bool Straight(Player ply, int size);
 
-bool Four_of_a_kind(Playing_card* arm, int size);
+bool Flush(Player ply, int size);
 
-bool FullHouse(Playing_card* arm, int size);
+bool Four_of_a_kind(Player ply, int size);
 
-bool StraightFlush(Playing_card* arm, int size);
+bool FullHouse(Player ply, int size);
 
-bool Royal_flush(Playing_card* arm, int size);
+bool StraightFlush(Player ply, int size);
 
-void P_Check_combo(Playing_card* arm, int size);
+bool Royal_flush(Player ply, int size);
 
-int Combo_val(Playing_card* arm, int size);
+void P_Check_combo(Player ply, int size);
 
-int Win_loss(Game_table& game, Playing_card* arm, Playing_card* arm1, int size);
+int Combo_val(Player ply, int size);
 
-int Bet(Game_table& game, Player& ply);
+int Win_loss(Game_table& game, Player &ply1,Player &ply2, int size);
+
+void Bet(Game_table& game, Player& ply);
 
 void Print_chips(Player& ply);
 
-void Phaise_1_ply1(Game_table& game);
-
-void Phaise_1_ply2(Game_table& game);
-
-void Phaise_2_ply1(Game_table& game);
-
 void Print_bet(Game_table& game);
 
-void Start_Check_combo(Playing_card* arm, int size);
+void Start_Check_combo(Player ply, int size);
 
-int Start_Combo_val(Playing_card* arm, int size);
+int Start_Combo_val(Player ply, int size);
+
+void Eq_bet(Game_table& game, Player& ply, int  bet);
+
+int Up_bet(Game_table& game, Player& ply, int &bet);
+
+void Menu(Game_table& game);
+
+void Pas_bet(Game_table& game, Player& ply);
+
+void Coin_flip(Game_table& game);
+
+void Start_p1(Game_table& game);
+
+void Start2_p1(Game_table& game);
+
+void Start_p2(Game_table& game);
+
+void Start2_p2(Game_table& game);
+
+void Erl_p1(Game_table& game);
+
+void Erl2_p1(Game_table& game);
+
+void Erl_p2(Game_table& game);
+
+void Erl2_p2(Game_table& game);
+
+void Mid_p1(Game_table& game);
+
+void Mid2_p1(Game_table& game);
+
+void Mid_p2(Game_table& game);
+
+void Mid2_p2(Game_table& game);
+
+void Erl_WL_p1(Game_table& game);
+
+void Erl_WL_p2(Game_table& game);
+
+void Erl_pas_p1(Game_table& game);
+
+void Erl_pas_p2(Game_table& game);
+
+void Mid_WL_p1(Game_table& game);
+
+void Erl_pas_p1(Game_table& game);
+
+void Mid_WL_p2(Game_table& game);
+
+void Lt_WL_p1(Game_table& game);
+
+void Lt_WL_p2(Game_table& game);
+
+void Lt_p1(Game_table& game);
+
+void Lt2_p1(Game_table& game);
+
+void Lt_p2(Game_table& game);
+
+void Lt2_p2(Game_table& game);
+
+void Mid_pas_p2(Game_table& game);
+
+void Mid_pas_p1(Game_table& game);

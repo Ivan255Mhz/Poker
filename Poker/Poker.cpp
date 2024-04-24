@@ -10,6 +10,7 @@ int main()
 {
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
+    srand(time(0));
     string Card[13]{ "2 ","3 ","4 ","5 ","6 ","7 ","8 ","9 ","10","J ","Q ","K ","A " };
     string Suit[4]{ "Крес" ,"Черв","Пики","Буби" };
     int Rank_values[13]{ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
@@ -24,7 +25,25 @@ int main()
     Player two;
     Game_table game; // создание игрального стола 
     Preparing_game(stack, one, two, game); // подготовка к игре ( раздача карт игрокам + их сортировка , на стол , и добовление игроков к столу )
-    Phaise_1_ply1(game);
+   
+    string ply1{};
+    string ply2{};
+    cout << "Введите имя Игрока №1 : ";
+    cin >> ply1;
+    cout << "Введите имя Игрока №2 : ";
+    cin >> ply2;
+    one.name = ply1;
+    two.name = ply2;
+    system("cls");
+
+    cout << "\t\t\tКурсовая работа \"Покер\" : студент Беляев Иван Александрович" << endl;
+    cout << endl << endl;
+
+
+    bool bet[4]{ false };
+
+    Menu(game);
+
 }
 
     
