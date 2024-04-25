@@ -1,11 +1,8 @@
 #include "Game.h"
 
-int bet{};
+int bet{}; // преведущая ставка
 
-
-
-
-enum Result { Lose, Win, Draw };
+enum Result { Lose, Win, Draw }; // для определения победы, поражения , и нечьей 
 
 void Fill_the_deck(Deck& deck, int size_card, int size_suit, string* card, string* suit, int* rank_values, int* suit_values)// создание массива карт
 {
@@ -20,27 +17,6 @@ void Fill_the_deck(Deck& deck, int size_card, int size_suit, string* card, strin
 			deck.Deck_card[index].su_vel = suit_values[i];
 			++index;
 		}
-	}
-}
-
-
-
-void Print_card(Playing_card& card)//  это больше для проверки
-{
-	cout << "|-------|" << endl;
-	cout << "|       |" << endl;
-	cout << "|   " << card.Card << "  |" << endl;
-	cout << "| " << card.Suit << "  |" << endl;
-	cout << "|       |" << endl;
-	cout << "|-------|" << endl;
-}
-
-void Print_deck(Deck& deck, int size) // тоже для проверки 
-{
-	for (int i{}; i < size; ++i)
-	{
-
-		Print_card(deck.Deck_card[i]);
 	}
 }
 
@@ -66,22 +42,7 @@ void Game_deck(Game_table& game, Deck& deck, int size_game) // коллода карт для 
 	}
 }
 
-//void Privat_card(Player& one, Player& two, Deck& game) // даем карты в руку игрокам 
-//{
-//    one.Privat_card[0] = game.Deck_card[0];
-//    one.Privat_card[1] = game.Deck_card[2];
-//    two.Privat_card[0] = game.Deck_card[1];
-//    two.Privat_card[1] = game.Deck_card[3];
-//
-//}
-
-//void Player_p_table(Game_table& game, Player& one, Player& two) // добовляем игроков к столу 
-//{
-//    game.One = one;
-//    game.Two = two;
-//}
-
-void Preparing_game(Deck& deck, Player& one, Player& two, Game_table& game)
+void Preparing_game(Deck& deck, Player& one, Player& two, Game_table& game) // подготовка к игре 
 {
 	one.Privat_card[0] = deck.Deck_card[0];
 	one.Privat_card[1] = deck.Deck_card[2];
@@ -108,30 +69,6 @@ void Preparing_game(Deck& deck, Player& one, Player& two, Game_table& game)
 	game.Two = two;
 
 }
-
-//Playing_card* Arm(Player& ply, Game_table& game)
-//{
-//    Playing_card* arm = new Playing_card[7]{};
-//    int index{};
-//    for (int i{}; i < 2; ++i)
-//    {
-//        arm[index] = ply.Privat_card[i];
-//        ++index;
-//    }
-//
-//    for (int i{}; i < 5; ++i)
-//    {
-//        arm[index] = game.Play_deck[i];
-//        ++index;
-//    }
-//
-//    return arm;
-//}
-
-
-
-
-
 
 void Table(Game_table& game) // 1 этап ставок
 {
@@ -198,7 +135,7 @@ void Sort_card(Playing_card* arm, int size) // сортировка массива для комбинаций
 	}
 }
 
-void Old_arr(Playing_card* arm1, Playing_card* arm2, int size)
+void Old_arr(Playing_card* arm1, Playing_card* arm2, int size) // возврат массива для комбинации к изначальному варианту 
 {
 	for (int i{}; i < size; ++i)
 	{
@@ -259,7 +196,7 @@ bool Pairs(Player ply, int size) // пара
 	return false;
 }
 
-bool Two_pairs(Player ply, int size) // 2 пары 
+bool Two_pairs(Player ply, int size) // 2 или 3 пары 
 {
 	Sort_card(ply.Privat_card, size);
 	int pairs_count = 0;
@@ -277,7 +214,7 @@ bool Two_pairs(Player ply, int size) // 2 пары
 		}
 	}
 
-	if (pairs_count == 2)
+	if (pairs_count == 2 || pairs_count == 3)
 	{
 		Old_arr(ply.Privat_card, ply.arm, size);
 		return true;
@@ -588,10 +525,12 @@ int Win_loss(Game_table& game, Player& ply1, Player& ply2, int size) // определе
 		int vel = Senior_card(game, ply1, ply2);
 		if (vel == 0)
 		{
+			cout <<"Старашя карта игрока "<<ply1.name << " слабее" << endl;
 			return Lose;
 		}
 		else if (vel == 1)
 		{
+			cout << "Старашя карта игрока " << ply1.name << " сильнее" << endl;
 			return Win;
 		}
 		else if (vel == 2)
@@ -601,12 +540,12 @@ int Win_loss(Game_table& game, Player& ply1, Player& ply2, int size) // определе
 	}
 	else if (val_p1 > val_p2)
 	{
-		cout << "Ваша комбинация сильнее : победа !" << endl;
+		
 		return Win;
 	}
 	else
 	{
-		cout << "Ваша комбинация слабее : проигрыш !" << endl;
+		
 		return Lose;
 	}
 }
@@ -623,13 +562,13 @@ void Swap_bet(Game_table& game, Player& ply1, Player& ply2, int size) // распред
 	}
 	else if (resul == Win)
 	{
-		cout << "Победа ! Игрок с именем : " << ply1.name << " забирвет " << game.bet << " фишек" << endl;
+		cout << "Победа  игрока с именем : " << ply1.name << " он забирает " << game.bet << " фишек" << endl;
 		ply1.chips += game.bet;
 		game.bet = 0;
 	}
 	else if (resul == Lose)
 	{
-		cout << "Проигрышь ! Игрок с именем : " << ply2.name << " забирвет " << game.bet << " фишек" << endl;
+		cout << "Победа  игрока с именем : " << ply2.name << " он забирвет " << game.bet << " фишек" << endl;
 		ply2.chips += game.bet;
 		game.bet = 0;
 	}
@@ -719,9 +658,15 @@ void Bet(Game_table& game, Player& ply) // ставка
 			system("cls");
 			Low_bat(game, ply);
 		}
-    }
+	} break;
 
-	}
+	default :
+	{
+		system("cls");
+		Bet(game, ply);
+	} break;
+	
+}
 }
 
 
@@ -754,7 +699,7 @@ void Eq_bet(Game_table& game, Player& ply, int  bet) // стравнение ставки
 	}
 }
 
-void Low_bat(Game_table& game, Player& ply)
+void Low_bat(Game_table& game, Player& ply) // поставить остаток фишек
 {
 	int vl{};
 	cout << "У вас осталось " << ply.chips << " фишек поставить их ?" << endl;
@@ -800,8 +745,7 @@ void Up_bet(Game_table& game, Player& ply) // повышение ставки
 	cout << "| 1. Увеличеть на 15 фишек. |" << endl;
 	cout << "| 2. Увеличеть на 20 фишек. |" << endl;
 	cout << "| 3. Увеличеть на 25 фишек. |" << endl;
-	cout << "| 4. Выбрать другое дейсвие.|" << endl;
-	cout << "+---------------------------+" << endl;
+    cout << "+---------------------------+" << endl;
 	cout << "     Ваше дейсвие : ";
 	cin >> vl;
 
@@ -856,11 +800,7 @@ void Up_bet(Game_table& game, Player& ply) // повышение ставки
 		}
 	} break;
 
-	case 4:
-	{
-		system("cls");
-		return;
-	}
+	
 
 	default:
 	{
@@ -887,17 +827,14 @@ void Pas_bet(Game_table& game, Player& ply) // пас игрока
 
 void Print_bet()
 {
-	cout << "Преведущая ставка" << endl;
-	cout << "+-----------------+" << endl;
-	cout << "  " << bet << "   " << endl;
-	cout << "+-----------------+" << endl;
-
+	cout << "Преведущая ставка : " << bet << endl;
 }
 
 
 
-void Coin_flip(Game_table& game, Deck &stack) // подброс монетки
+void Coin_flip(Game_table& game, Deck &stack) // подброс монетки и перерасдача карт 
 {
+	bet = 0;
 	Game_over(game, stack);
 	Shuffle_card(stack);
 	Preparing_game(stack, game.One, game.Two, game);
@@ -906,21 +843,25 @@ void Coin_flip(Game_table& game, Deck &stack) // подброс монетки
 
 	if (val)
 	{
+		cout << endl;
 		cout << "К столу приглашается игрок " << game.One.name << endl;
+		cout << endl;
 		system("pause");
 		system("cls");
 		Start_p1(game, stack);
 	}
 	else
 	{
+		cout << endl;
 		cout << "К столу приглашается игрок " << game.Two.name << endl;
+		cout << endl;
 		system("pause");
 		system("cls");
 		Start_p2(game, stack);
 	}
 }
 
-void Game_over(Game_table& game, Deck& stack)
+void Game_over(Game_table& game, Deck& stack) // проверка на проигрыш
 {
 	if (game.One.chips == 0)
 	{
@@ -929,8 +870,8 @@ void Game_over(Game_table& game, Deck& stack)
 		cout << "| У вас конечелись фишки , вы проиграли !|" << endl;
 		cout << "+----------------------------------------+" << endl;
 		system("pause");
-		game.One.chips = 250;
-		game.Two.chips = 250;
+		game.One.chips = 1000;
+		game.Two.chips = 1000;
 		Menu(game, stack);
 	
 	}
@@ -941,10 +882,39 @@ void Game_over(Game_table& game, Deck& stack)
 		cout << "| У вас конечелись фишки , вы проиграли !|" << endl;
 		cout << "+----------------------------------------+"<<endl;
 		system("pause");
-		game.One.chips = 250;
-		game.Two.chips = 250;
+		game.One.chips = 1000;
+		game.Two.chips = 1000;
 		Menu(game, stack);
 	}
+}
+
+void Print_rules() // правила
+{
+	cout << "Правила игры в моей версии \"Покер\" " << endl;
+	cout << endl;
+	cout << "1. Первый ход игроков определяется случайным образом " << endl;
+	cout << "2. На первом ходу вы можете сделать ставку или спасовать игра начнется заного" << endl;
+	cout << "3. После уравнивания ставки одним из игроков , игра переходит в новый этап     (на последнем этапе происходит выбор победителя )" << endl;
+	cout << "4. При недостаточном кол-ве фишек при уравнивании или повышении ставки , вы можете поставить свои оставшиеся фишки" << endl;
+	cout << "5. У вас на каждом этапе есть возможность спасовать , после этого все фишки из ставки получает ваш соперник " << endl;
+	cout << "6. Игрок может вам предложить вскрыть карты или оставить текущую ставку , игрок  может согласиться или отказаться(тогда  вы вернетесь к выбору дейсвия)" << endl;
+	cout << endl;
+	cout << " Комбинации карт" << endl;
+	cout << endl;
+	cout << "1. Старшая карта - если у вас одинаковые комбинации с соперником, то побеждает игрок с более старшей картой на руках" << endl;
+	cout << "2. Пара - две одинаковые карты одного ранга на руках" << endl;
+	cout << "3. Две пары - две пары на руках " << endl;
+	cout << "4. Сет - три одинаковые карты на руках " << endl;
+	cout << "5. Стрит - последовательность из 5 карт подрят на руках " << endl;
+	cout << "6. Флеш - пять карт одной масти на руках " << endl;
+	cout << "7. Фулл хаус - сет и пара на руках" << endl;
+	cout << "8. Каре - четыре карты одного ранга на руках" << endl;
+	cout << "9. Стрит флеш - последовательность из 5  карт одной масти на руках" << endl;
+	cout << "10. Флеш рояль - последовательность одной масти от 10 до туза на руках " << endl;
+
+	system("pause");
+	system("cls");
+	return;
 }
 
 
@@ -967,14 +937,14 @@ void Menu(Game_table& game, Deck& stack) // меню
 
 		case 1:
 		{
-			
 			system("cls");
 			Coin_flip(game, stack);
 		} break;
 
 		case 2:
 		{
-
+			system("cls");
+			Print_rules();
 		} break;
 
 		case 3:
@@ -984,17 +954,19 @@ void Menu(Game_table& game, Deck& stack) // меню
 
 		default:
 		{
-
-		} break;
+			system("cls");
+			Menu(game, stack);
+        } break;
 		}
 	} while (choise != 3);
 }
 
-void Start_p1(Game_table& game, Deck& stack)
+void Start_p1(Game_table& game, Deck& stack)  // дальше пойдут функции разных стадий игры
 {
 	int p1{};
 	Print_Arm1(game);
 	Start_Check_combo(game.One, 2);
+	Print_bet();
 	cout << "+--------------------+" << endl;
 	cout << "| 1. Сделать ставку. |" << endl;
 	cout << "| 2. Пас.            |" << endl;
@@ -1021,6 +993,12 @@ void Start_p1(Game_table& game, Deck& stack)
 		system("cls");
 		Coin_flip(game, stack);
 	} break;
+
+	default :
+	{
+		system("cls");
+		Start_p1(game, stack);
+	}
 	
 	}
 }
@@ -1030,6 +1008,7 @@ void Start2_p1(Game_table& game, Deck& stack)
 	int p1{};
 	Print_Arm1(game);
 	Start_Check_combo(game.One, 2);
+	Print_bet();
 	cout << "+---------------------+" << endl;
 	cout << "| 1. Уровнять ставку. |" << endl;
 	cout << "| 2. Повысить ставку. |" << endl;
@@ -1066,6 +1045,12 @@ void Start2_p1(Game_table& game, Deck& stack)
 		Coin_flip(game,stack);
 	} break;
 
+	default:
+	{
+		system("cls");
+		Start2_p1(game, stack);
+	}
+
 	}
 }
 
@@ -1074,6 +1059,7 @@ void Start_p2(Game_table& game, Deck& stack)
 	int p2{};
 	Print_Arm2(game);
 	Start_Check_combo(game.Two, 2);
+	Print_bet();
 	cout << "+--------------------+" << endl;
 	cout << "| 1. Сделать ставку. |" << endl;
 	cout << "| 2. Пас.            |" << endl;
@@ -1100,6 +1086,13 @@ void Start_p2(Game_table& game, Deck& stack)
 		Coin_flip(game, stack);
 	} break;
 
+	default:
+	{
+		system("cls");
+		Start_p2(game, stack);
+	}
+	
+
 	}
 }
 
@@ -1108,6 +1101,7 @@ void Start2_p2(Game_table& game, Deck& stack)
 	int p2{};
 	Print_Arm2(game);
 	Start_Check_combo(game.Two, 2);
+	Print_bet();
 	cout << "+---------------------+" << endl;
 	cout << "| 1. Уровнять ставку. |" << endl;
 	cout << "| 2. Повысить ставку. |" << endl;
@@ -1145,6 +1139,12 @@ void Start2_p2(Game_table& game, Deck& stack)
 		Coin_flip(game, stack);
 	} break;
 
+	default:
+	{
+		system("cls");
+		Start2_p2(game, stack);
+	}
+
 	}
 }
 
@@ -1154,6 +1154,7 @@ void Erl_p1(Game_table& game, Deck& stack)
 	Table(game);
 	Print_Arm1(game);
 	P_Check_combo(game.One, 5);
+	Print_bet();
 	cout << "+---------------------+" << endl;
 	cout << "| 1. Повысить ставку. |" << endl;
 	cout << "| 2. Вскрыть карты.   |" << endl;
@@ -1190,8 +1191,15 @@ void Erl_p1(Game_table& game, Deck& stack)
 
 	case 4:
 	{
+		system("cls");
 		Erl_pas_p1(game, stack);
 	} break;
+
+	default:
+	{
+		system("cls");
+		Erl_p1(game, stack);
+	}
 
 	}
 
@@ -1199,7 +1207,10 @@ void Erl_p1(Game_table& game, Deck& stack)
 
 void Erl_WL_p1(Game_table& game, Deck& stack)
 {
+	
 	int val{};
+
+	cout << "Запрос игроку : " << game.Two.name << endl;
 	cout << "+----------------------------------------------------+" << endl;
 	cout << "| Игрок предлогает вам вскрыть карты , вы согласны ? |" << endl;
 	cout << "|                  1. Да                             |" << endl;
@@ -1216,6 +1227,7 @@ void Erl_WL_p1(Game_table& game, Deck& stack)
 		system("cls");
 		Win_loss(game, game.Two, game.One, 5);
 		Swap_bet(game, game.Two, game.One, 5);
+		system("pause");
 		system("cls");
 		Coin_flip(game, stack);
     } break;
@@ -1223,8 +1235,14 @@ void Erl_WL_p1(Game_table& game, Deck& stack)
 	case 2:
 	{
 		system("cls");
-		Erl_p2(game, stack);
+		Erl_p1(game, stack);
 	} break;
+
+	default:
+	{
+		system("cls");
+		Erl_WL_p1(game, stack);
+	}
 	
 	}
 }
@@ -1232,6 +1250,7 @@ void Erl_WL_p1(Game_table& game, Deck& stack)
 void Erl_pas_p1(Game_table& game, Deck &stack)
 {
 	int val{};
+	cout << "Запрос игроку : " << game.Two.name << endl;
 	cout << "+------------------------------------------------------+" << endl;
 	cout << "| Игрок предлогает вам оставить ставку , вы согласны ? |" << endl;
 	cout << "|                  1. Да                               |" << endl;
@@ -1253,8 +1272,14 @@ void Erl_pas_p1(Game_table& game, Deck &stack)
 	case 2:
 	{
 		system("cls");
-		Erl_p2(game, stack);
+		Erl_p1(game, stack);
 	} break;
+
+	default:
+	{
+		system("cls");
+		Erl_pas_p1(game, stack);
+	}
 
 	}
 }
@@ -1265,6 +1290,7 @@ void Erl2_p1(Game_table& game, Deck& stack)
 	Table(game);
 	Print_Arm1(game);
 	P_Check_combo(game.One, 5);
+	Print_bet();
 	cout << "+---------------------+" << endl;
 	cout << "| 1. Уравнять ставку. |" << endl;
 	cout << "| 2. Повысить ставку. |" << endl;
@@ -1303,6 +1329,12 @@ void Erl2_p1(Game_table& game, Deck& stack)
 		Coin_flip(game, stack);
 	} break;
 
+	default:
+	{
+		system("cls");
+		Erl2_p1(game, stack);
+	}
+
 	
 
 	}
@@ -1315,6 +1347,7 @@ void Erl_p2(Game_table& game, Deck& stack)
 	Table(game);
 	Print_Arm2(game);
 	P_Check_combo(game.Two, 5);
+	Print_bet();
 	cout << "+---------------------+" << endl;
 	cout << "| 1. Повысить ставку. |" << endl;
 	cout << "| 2. Вскрыть карты.   |" << endl;
@@ -1355,6 +1388,12 @@ void Erl_p2(Game_table& game, Deck& stack)
 		Erl_pas_p2(game, stack);
 	} break;
 
+	default:
+	{
+		system("cls");
+		Erl_p2(game, stack);
+	}
+
 	}
 
 }
@@ -1362,6 +1401,7 @@ void Erl_p2(Game_table& game, Deck& stack)
 void Erl_WL_p2(Game_table& game, Deck& stack)
 {
 	int val{};
+	cout << "Запрос игроку : " << game.One.name << endl;
 	cout << "+----------------------------------------------------+" << endl;
 	cout << "| Игрок предлогает вам вскрыть карты , вы согласны ? |" << endl;
 	cout << "|                  1. Да                             |" << endl;
@@ -1386,8 +1426,13 @@ void Erl_WL_p2(Game_table& game, Deck& stack)
 	case 2:
 	{
 		system("cls");
-		Erl_p1(game, stack);
+		Erl_p2(game, stack);
 	} break;
+	default:
+	{
+		system("cls");
+		Erl_WL_p2(game, stack);
+	}
 
 	}
 }
@@ -1395,6 +1440,7 @@ void Erl_WL_p2(Game_table& game, Deck& stack)
 void Erl_pas_p2(Game_table& game, Deck &stack)
 {
 	int val{};
+	cout << "Запрос игроку : " << game.One.name << endl;
 	cout << "+------------------------------------------------------+" << endl;
 	cout << "| Игрок предлогает вам оставить ставку , вы согласны ? |" << endl;
 	cout << "|                  1. Да                               |" << endl;
@@ -1419,6 +1465,12 @@ void Erl_pas_p2(Game_table& game, Deck &stack)
 		Erl_p2(game, stack);
 	} break;
 
+	default:
+	{
+		system("cls");
+		Erl_pas_p2(game, stack);
+	}
+
 	}
 }
 
@@ -1428,6 +1480,7 @@ void Erl2_p2(Game_table& game, Deck& stack)
 	Table(game);
 	Print_Arm2(game);
 	P_Check_combo(game.Two, 5);
+	Print_bet();
 	cout << "+---------------------+" << endl;
 	cout << "| 1. Уравнять ставку. |" << endl;
 	cout << "| 2. Повысить ставку. |" << endl;
@@ -1465,6 +1518,12 @@ void Erl2_p2(Game_table& game, Deck& stack)
 		Coin_flip(game, stack);
 	} break;
 
+	default:
+	{
+		system("cls");
+		Erl2_p2(game, stack);
+	}
+
 
 
 	}
@@ -1477,6 +1536,7 @@ void Mid_p1(Game_table& game, Deck& stack)
 	Table_t_2(game);
 	Print_Arm1(game);
 	P_Check_combo(game.One, 6);
+	Print_bet();
 	cout << "+---------------------+" << endl;
 	cout << "| 1. Повысить ставку. |" << endl;
 	cout << "| 2. Вскрыть карты.   |" << endl;
@@ -1518,12 +1578,19 @@ void Mid_p1(Game_table& game, Deck& stack)
 		
 	} break;
 
+	default:
+	{
+		system("cls");
+		Mid_p1(game, stack);
+	}
+
 	}
 }
 
 void Mid_WL_p1(Game_table& game, Deck& stack)
 {
 	int val{};
+	cout << "Запрос игроку : " << game.Two.name << endl;
 	cout << "+----------------------------------------------------+" << endl;
 	cout << "| Игрок предлогает вам вскрыть карты , вы согласны ? |" << endl;
 	cout << "|                  1. Да                             |" << endl;
@@ -1548,8 +1615,14 @@ void Mid_WL_p1(Game_table& game, Deck& stack)
 	case 2:
 	{
 		system("cls");
-		Mid_p2(game, stack);
+		Mid_p1(game, stack);
 	} break;
+
+	default:
+	{
+		system("cls");
+		Mid_WL_p1(game, stack);
+	}
 
 	}
 }
@@ -1557,6 +1630,7 @@ void Mid_WL_p1(Game_table& game, Deck& stack)
 void Mid_pas_p1(Game_table& game, Deck& stack)
 {
 	int val{};
+	cout << "Запрос игроку : " << game.Two.name << endl;
 	cout << "+------------------------------------------------------+" << endl;
 	cout << "| Игрок предлогает вам оставить ставку , вы согласны ? |" << endl;
 	cout << "|                  1. Да                               |" << endl;
@@ -1578,8 +1652,14 @@ void Mid_pas_p1(Game_table& game, Deck& stack)
 	case 2:
 	{
 		system("cls");
-		Mid_p2(game, stack);
+		Mid_p1(game, stack);
 	} break;
+
+	default:
+	{
+		system("cls");
+		Mid_pas_p1(game, stack);
+	}
 
 	}
 }
@@ -1590,6 +1670,7 @@ void Mid2_p1(Game_table& game, Deck& stack)
 	Table_t_2(game);
 	Print_Arm1(game);
 	P_Check_combo(game.One, 6);
+	Print_bet();
 	cout << "+---------------------+" << endl;
 	cout << "| 1. Уравнять ставку. |" << endl;
 	cout << "| 2. Повысить ставку. |" << endl;
@@ -1627,6 +1708,12 @@ void Mid2_p1(Game_table& game, Deck& stack)
 		Coin_flip(game, stack);
 	} break;
 
+	default:
+	{
+		system("cls");
+		Mid2_p1(game, stack);
+	}
+
 
 
 	}
@@ -1639,6 +1726,7 @@ void Mid_p2(Game_table& game, Deck& stack)
 	Table_t_2(game);
 	Print_Arm2(game);
 	P_Check_combo(game.Two, 6);
+	Print_bet();
 	cout << "+---------------------+" << endl;
 	cout << "| 1. Повысить ставку. |" << endl;
 	cout << "| 2. Вскрыть карты.   |" << endl;
@@ -1681,12 +1769,19 @@ void Mid_p2(Game_table& game, Deck& stack)
 		
 	} break;
 
+	default:
+	{
+		system("cls");
+		Mid_p2(game, stack);
+	}
+
 	}
 }
 
 void Mid_WL_p2(Game_table& game, Deck& stack)
 {
 	int val{};
+	cout << "Запрос игроку : " << game.One.name << endl;
 	cout << "+----------------------------------------------------+" << endl;
 	cout << "| Игрок предлогает вам вскрыть карты , вы согласны ? |" << endl;
 	cout << "|                  1. Да                             |" << endl;
@@ -1711,8 +1806,14 @@ void Mid_WL_p2(Game_table& game, Deck& stack)
 	case 2:
 	{
 		system("cls");
-		Mid_p1(game, stack);
+		Mid_p2(game, stack);
 	} break;
+
+	default:
+	{
+		system("cls");
+		Mid_WL_p2(game, stack);
+	}
 
 	}
 }
@@ -1720,6 +1821,7 @@ void Mid_WL_p2(Game_table& game, Deck& stack)
 void Mid_pas_p2(Game_table& game, Deck& stack)
 {
 	int val{};
+	cout << "Запрос игроку : " << game.One.name << endl;
 	cout << "+------------------------------------------------------+" << endl;
 	cout << "| Игрок предлогает вам оставить ставку , вы согласны ? |" << endl;
 	cout << "|                  1. Да                               |" << endl;
@@ -1741,8 +1843,14 @@ void Mid_pas_p2(Game_table& game, Deck& stack)
 	case 2:
 	{
 		system("cls");
-		Mid_p1(game, stack);
+		Mid_p2(game, stack);
 	} break;
+
+	default:
+	{
+		system("cls");
+		Mid_pas_p2(game, stack);
+	}
 
 	}
 }
@@ -1753,6 +1861,7 @@ void Mid2_p2(Game_table& game, Deck& stack)
 	Table_t_2(game);
 	Print_Arm2(game);
 	P_Check_combo(game.Two, 6);
+	Print_bet();
 	cout << "+---------------------+" << endl;
 	cout << "| 1. Уравнять ставку. |" << endl;
 	cout << "| 2. Повысить ставку. |" << endl;
@@ -1790,6 +1899,12 @@ void Mid2_p2(Game_table& game, Deck& stack)
 		Coin_flip(game, stack);
 	} break;
 
+	default:
+	{
+		system("cls");
+		Mid2_p2(game, stack);
+	}
+
 
 
 	}
@@ -1802,6 +1917,7 @@ void Lt_p1(Game_table& game, Deck& stack)
 	Table_t_3(game);
 	Print_Arm1(game);
 	P_Check_combo(game.One, 7);
+	Print_bet();
 	cout << "+---------------------+" << endl;
 	cout << "| 1. Повысить ставку. |" << endl;
 	cout << "| 2. Вскрыть карты.   |" << endl;
@@ -1844,12 +1960,19 @@ void Lt_p1(Game_table& game, Deck& stack)
 		Lt_WL_p1(game, stack);
 	} break;
 
+	default:
+	{
+		system("cls");
+		Lt_p1(game, stack);
+	}
+
 	}
 }
 
 void Lt_WL_p1(Game_table& game, Deck& stack)
 {
 	int val{};
+	cout << "Запрос игроку : " << game.Two.name << endl;
 	cout << "+----------------------------------------------------+" << endl;
 	cout << "| Игрок предлогает вам вскрыть карты , вы согласны ? |" << endl;
 	cout << "|                  1. Да                             |" << endl;
@@ -1874,8 +1997,14 @@ void Lt_WL_p1(Game_table& game, Deck& stack)
 	case 2:
 	{
 		system("cls");
-		Lt_p2(game, stack);
+		Lt_p1(game, stack);
 	} break;
+
+	default:
+	{
+		system("cls");
+		Lt_WL_p1(game, stack);
+	}
 
 	}
 }
@@ -1886,6 +2015,7 @@ void Lt2_p1(Game_table& game, Deck& stack)
 	Table_t_3(game);
 	Print_Arm1(game);
 	P_Check_combo(game.One, 7);
+	Print_bet();
 	cout << "+---------------------+" << endl;
 	cout << "| 1. Уравнять ставку. |" << endl;
 	cout << "| 2. Повысить ставку. |" << endl;
@@ -1930,6 +2060,12 @@ void Lt2_p1(Game_table& game, Deck& stack)
 		Coin_flip(game, stack);
 	} break;
 
+	default:
+	{
+		system("cls");
+		Lt2_p1(game, stack);
+	}
+
 
 
 	}
@@ -1941,6 +2077,7 @@ void Lt_p2(Game_table& game, Deck& stack)
 	Table_t_3(game);
 	Print_Arm2(game);
 	P_Check_combo(game.Two, 7);
+	Print_bet();
 	cout << "+---------------------+" << endl;
 	cout << "| 1. Повысить ставку. |" << endl;
 	cout << "| 2. Вскрыть карты.   |" << endl;
@@ -1983,6 +2120,12 @@ void Lt_p2(Game_table& game, Deck& stack)
 		Lt_WL_p2(game, stack);
 	} break;
 
+	default:
+	{
+		system("cls");
+		Lt_p2(game, stack);
+	}
+
 	}
 
 }
@@ -1990,6 +2133,7 @@ void Lt_p2(Game_table& game, Deck& stack)
 void Lt_WL_p2(Game_table& game, Deck& stack)
 {
 	int val{};
+	cout << "Запрос игроку : " << game.One.name << endl;
 	cout << "+----------------------------------------------------+" << endl;
 	cout << "| Игрок предлогает вам вскрыть карты , вы согласны ? |" << endl;
 	cout << "|                  1. Да                             |" << endl;
@@ -2014,8 +2158,14 @@ void Lt_WL_p2(Game_table& game, Deck& stack)
 	case 2:
 	{
 		system("cls");
-		Lt_p1(game, stack);
+		Lt_p2(game, stack);
 	} break;
+
+	default:
+	{
+		system("cls");
+		Lt_WL_p2(game, stack);
+	}
 
 	}
 }
@@ -2026,6 +2176,7 @@ void Lt2_p2(Game_table& game, Deck& stack)
 	Table_t_3(game);
 	Print_Arm2(game);
 	P_Check_combo(game.Two, 7);
+	Print_bet();
 	cout << "+---------------------+" << endl;
 	cout << "| 1. Уравнять ставку. |" << endl;
 	cout << "| 2. Повысить ставку. |" << endl;
@@ -2069,6 +2220,12 @@ void Lt2_p2(Game_table& game, Deck& stack)
 		system("cls");
 		Coin_flip(game, stack);
 	} break;
+
+	default:
+	{
+		system("cls");
+		Lt2_p2(game, stack);
+	}
 
 
 

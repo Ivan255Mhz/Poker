@@ -12,12 +12,12 @@ int main()
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
     srand(time(0));
-    string Card[13]{ "2 ","3 ","4 ","5 ","6 ","7 ","8 ","9 ","10","J ","Q ","K ","A " };
+    string Card[13]{ "2 ","3 ","4 ","5 ","6 ","7 ","8 ","9 ","10","J ","Q ","K ","A " };       // подготовка колоды 
     string Suit[4]{ "Крес" ,"Черв","Пики","Буби" };
     int Rank_values[13]{ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
     int Suit_values[4]{ 1,2,3,4 };
     Deck stack;
-     // НАЧАЛО ИГРЫ
+                                               // НАЧАЛО ИГРЫ
 
     
     Fill_the_deck( stack, 13, 4, Card, Suit, Rank_values, Suit_values); // заполнение коллоды
@@ -40,12 +40,11 @@ int main()
 
     cout << "\t\t\tКурсовая работа \"Покер\" : студент Беляев Иван Александрович" << endl;
     cout << endl << endl;
-
-
-    bool bet[4]{ false };
-
+    
     Menu(game,stack);
 
+
+    return 0;
 }
 
     

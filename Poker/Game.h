@@ -50,10 +50,6 @@ struct Game_table
 
 void Fill_the_deck(Deck& deck, int size_card, int size_suit, std::string* card, std::string* suit, int* rank_values, int* suit_values);
 
-void Print_card(Playing_card& card);
-
-void Print_deck(Deck& deck, int size = 52);
-
 void Shuffle_card(Deck& deck, int size = 52);
 
 void Preparing_game(Deck& deck, Player& one, Player& two, Game_table& game);
@@ -177,3 +173,5 @@ void Game_over(Game_table& game, Deck& stack);
 void Low_bat(Game_table& game, Player& ply);
 
 void Print_bet();
+
+void Print_rules();
