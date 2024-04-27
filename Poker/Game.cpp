@@ -61,8 +61,8 @@ void Preparing_game(Deck& deck, Player& one, Player& two, Game_table& game) // п
 	{
 		one.Privat_card[i] = game.Play_deck[index];
 		two.Privat_card[i] = game.Play_deck[index];
-		one.arm[i]= game.Play_deck[index];
-		two.arm[i]= game.Play_deck[index];
+		one.arm[i] = game.Play_deck[index];
+		two.arm[i] = game.Play_deck[index];
 		++index;
 	}
 	game.One = one;
@@ -70,53 +70,60 @@ void Preparing_game(Deck& deck, Player& one, Player& two, Game_table& game) // п
 
 }
 
-void Table(Game_table& game) // 1 этап ставок
+void Table(const Game_table& game, int var) // 1 этап ставок
 {
-	cout << "\t\t\t\t     ---Карты на столе тур 1---" << endl;
-	cout << "\t\t\t\t       +------+------+------+" << endl;
-	cout << "\t\t\t\t       |  " << game.Play_deck[0].Card << "  |  " << game.Play_deck[1].Card << "  |  " << game.Play_deck[2].Card << "  |" << endl;
-	cout << "\t\t\t\t       | " << game.Play_deck[0].Suit << " | " << game.Play_deck[1].Suit << " | " << game.Play_deck[2].Suit << " |" << endl;
-	cout << "\t\t\t\t       +------+------+------+" << endl;
+	if (var == 1)
+	{
+		cout << "\t\t\t\t     ---Карты на столе тур 1---" << endl;
+		cout << "\t\t\t\t       +------+------+------+" << endl;
+		cout << "\t\t\t\t       |  " << game.Play_deck[0].Card << "  |  " << game.Play_deck[1].Card << "  |  " << game.Play_deck[2].Card << "  |" << endl;
+		cout << "\t\t\t\t       | " << game.Play_deck[0].Suit << " | " << game.Play_deck[1].Suit << " | " << game.Play_deck[2].Suit << " |" << endl;
+		cout << "\t\t\t\t       +------+------+------+" << endl;
+	}
+	else if (var == 2)
+	{
+		cout << "\t\t\t\t     ---Карты на столе тур 2---" << endl;
+		cout << "\t\t\t\t    +------+------+------+------+" << endl;
+		cout << "\t\t\t\t    |  " << game.Play_deck[0].Card << "  |  " << game.Play_deck[1].Card << "  |  " << game.Play_deck[2].Card << "  |  " << game.Play_deck[3].Card << "  |" << endl;
+		cout << "\t\t\t\t    | " << game.Play_deck[0].Suit << " | " << game.Play_deck[1].Suit << " | " << game.Play_deck[2].Suit << " | " << game.Play_deck[3].Suit << " |" << endl;
+		cout << "\t\t\t\t    +------+------+------+------+" << endl;
+	}
+	else if(var==3)
+	{
+		cout << "\t\t\t\t     ---Карты на столе тур 3---" << endl;
+		cout << "\t\t\t\t+------+------+------+------+------+" << endl;
+		cout << "\t\t\t\t|  " << game.Play_deck[0].Card << "  |  " << game.Play_deck[1].Card << "  |  " << game.Play_deck[2].Card << "  |  " << game.Play_deck[3].Card << "  |  " << game.Play_deck[4].Card << "  |" << endl;
+		cout << "\t\t\t\t| " << game.Play_deck[0].Suit << " | " << game.Play_deck[1].Suit << " | " << game.Play_deck[2].Suit << " | " << game.Play_deck[3].Suit << " | " << game.Play_deck[4].Suit << " |" << endl;
+		cout << "\t\t\t\t+------+------+------+------+------+" << endl;
+	}
 }
 
-void Table_t_2(Game_table& game) // 2 этап ставок 
-{
-	cout << "\t\t\t\t     ---Карты на столе тур 2---" << endl;
-	cout << "\t\t\t\t    +------+------+------+------+" << endl;
-	cout << "\t\t\t\t    |  " << game.Play_deck[0].Card << "  |  " << game.Play_deck[1].Card << "  |  " << game.Play_deck[2].Card << "  |  " << game.Play_deck[3].Card << "  |" << endl;
-	cout << "\t\t\t\t    | " << game.Play_deck[0].Suit << " | " << game.Play_deck[1].Suit << " | " << game.Play_deck[2].Suit << " | " << game.Play_deck[3].Suit << " |" << endl;
-	cout << "\t\t\t\t    +------+------+------+------+" << endl;
-}
+//void Table_t_2(Game_table& game) // 2 этап ставок 
+//{
+//	cout << "\t\t\t\t     ---Карты на столе тур 2---" << endl;
+//	cout << "\t\t\t\t    +------+------+------+------+" << endl;
+//	cout << "\t\t\t\t    |  " << game.Play_deck[0].Card << "  |  " << game.Play_deck[1].Card << "  |  " << game.Play_deck[2].Card << "  |  " << game.Play_deck[3].Card << "  |" << endl;
+//	cout << "\t\t\t\t    | " << game.Play_deck[0].Suit << " | " << game.Play_deck[1].Suit << " | " << game.Play_deck[2].Suit << " | " << game.Play_deck[3].Suit << " |" << endl;
+//	cout << "\t\t\t\t    +------+------+------+------+" << endl;
+//}
+//
+//void Table_t_3(Game_table& game) // 3 этап ставок 
+//{
+//	cout << "\t\t\t\t     ---Карты на столе тур 3---" << endl;
+//	cout << "\t\t\t\t+------+------+------+------+------+" << endl;
+//	cout << "\t\t\t\t|  " << game.Play_deck[0].Card << "  |  " << game.Play_deck[1].Card << "  |  " << game.Play_deck[2].Card << "  |  " << game.Play_deck[3].Card << "  |  " << game.Play_deck[4].Card << "  |" << endl;
+//	cout << "\t\t\t\t| " << game.Play_deck[0].Suit << " | " << game.Play_deck[1].Suit << " | " << game.Play_deck[2].Suit << " | " << game.Play_deck[3].Suit << " | " << game.Play_deck[4].Suit << " |" << endl;
+//	cout << "\t\t\t\t+------+------+------+------+------+" << endl;
+//}
 
-void Table_t_3(Game_table& game) // 3 этап ставок 
+void Print_Arm(const Player& ply) // принт руки 1 игрока 
 {
-	cout << "\t\t\t\t     ---Карты на столе тур 3---" << endl;
-	cout << "\t\t\t\t+------+------+------+------+------+" << endl;
-	cout << "\t\t\t\t|  " << game.Play_deck[0].Card << "  |  " << game.Play_deck[1].Card << "  |  " << game.Play_deck[2].Card << "  |  " << game.Play_deck[3].Card << "  |  " << game.Play_deck[4].Card << "  |" << endl;
-	cout << "\t\t\t\t| " << game.Play_deck[0].Suit << " | " << game.Play_deck[1].Suit << " | " << game.Play_deck[2].Suit << " | " << game.Play_deck[3].Suit << " | " << game.Play_deck[4].Suit << " |" << endl;
-	cout << "\t\t\t\t+------+------+------+------+------+" << endl;
-}
-
-void Print_Arm1(Game_table& game) // принт руки 1 игрока 
-{
-	cout << " ---Рука Игрока "<<game.One.name<<"---" << endl;
+	cout << " ---Рука Игрока " << ply.name << "---" << endl;
 	cout << "    +------+------+" << endl;
-	cout << "    |  " << game.One.arm[0].Card << "  |  " << game.One.arm[1].Card << "  |" << endl;
-	cout << "    | " << game.One.arm[0].Suit << " | " << game.One.arm[1].Suit << " |" << endl;
+	cout << "    |  " << ply.arm[0].Card << "  |  " << ply.arm[1].Card << "  |" << endl;
+	cout << "    | " << ply.arm[0].Suit << " | " << ply.arm[1].Suit << " |" << endl;
 	cout << "    +------+------+" << endl;
-	Print_chips(game.One);
-	Print_bet(game);
-}
-
-void Print_Arm2(Game_table& game) // принт руки 2 игрока 
-{
-	cout << " ---Рука Игрока " << game.Two.name << "---" << endl;
-	cout << "    +-------------+" << endl;
-	cout << "    |  " << game.Two.arm[0].Card << "  |  " << game.Two.arm[1].Card << "  |" << endl;
-	cout << "    | " << game.Two.arm[0].Suit << " | " << game.Two.arm[1].Suit << " |" << endl;
-	cout << "    +-------------+" << endl;
-	Print_chips(game.Two);
-	Print_bet(game);
+	Print_chips(ply);
 }
 
 void Sort_card(Playing_card* arm, int size) // сортировка массива для комбинаций
@@ -156,29 +163,29 @@ int Senior_card(Game_table& game, Player& ply1, Player& ply2)  // старшая карта
 		}
 		else if (ply1.arm[0].sort > ply2.arm[0].sort)
 		{
-			
+
 			return Win;
 		}
 		else
 		{
-			
+
 			return Lose;
 		}
 	}
 	else if (ply1.arm[1].sort > ply2.arm[1].sort)
 	{
-		
+
 		return Win;
 	}
 	else
 	{
-		
-	    return Lose;
+
+		return Lose;
 	}
 }
 
 
-bool Pairs(Player ply, int size) // пара
+bool Pairs(Player& ply, int size) // пара
 {
 	Sort_card(ply.Privat_card, size);
 	for (int i = 0; i < size; i++)
@@ -187,7 +194,7 @@ bool Pairs(Player ply, int size) // пара
 		{
 			if (ply.Privat_card[i].sort == ply.Privat_card[j].sort)
 			{
-				Old_arr(ply.Privat_card, ply.arm,size);
+				Old_arr(ply.Privat_card, ply.arm, size);
 				return true;
 			}
 		}
@@ -196,7 +203,7 @@ bool Pairs(Player ply, int size) // пара
 	return false;
 }
 
-bool Two_pairs(Player ply, int size) // 2 или 3 пары 
+bool Two_pairs(Player& ply, int size) // 2 или 3 пары 
 {
 	Sort_card(ply.Privat_card, size);
 	int pairs_count = 0;
@@ -226,7 +233,7 @@ bool Two_pairs(Player ply, int size) // 2 или 3 пары
 	}
 }
 
-bool Set(Player ply, int size) // сет
+bool Set(Player& ply, int size) // сет
 {
 	Sort_card(ply.Privat_card, size);
 	int rank_counts[15]{ 0 };
@@ -248,7 +255,7 @@ bool Set(Player ply, int size) // сет
 	return false;
 }
 
-bool Straight(Player ply, int size)  // стрит
+bool Straight(Player& ply, int size)  // стрит
 {
 	Sort_card(ply.Privat_card, size);
 	for (int i = 0; i < size - 1; ++i)
@@ -265,7 +272,7 @@ bool Straight(Player ply, int size)  // стрит
 }
 
 
-bool Flush(Player ply, int size) // флеш
+bool Flush(Player& ply, int size) // флеш
 {
 	Sort_card(ply.Privat_card, size);
 	int count = 1;
@@ -289,7 +296,7 @@ bool Flush(Player ply, int size) // флеш
 	return false;
 }
 
-bool Four_of_a_kind(Player ply, int size) // карэ
+bool Four_of_a_kind(Player& ply, int size) // карэ
 {
 	Sort_card(ply.Privat_card, size);
 	int rank_counts[15]{ 0 };
@@ -310,7 +317,7 @@ bool Four_of_a_kind(Player ply, int size) // карэ
 	return false;
 }
 
-bool FullHouse(Player ply, int size) // фулхаус
+bool FullHouse(Player& ply, int size) // фулхаус
 {
 	Sort_card(ply.Privat_card, size);
 	int rank_counts[15]{ 0 };
@@ -344,7 +351,7 @@ bool FullHouse(Player ply, int size) // фулхаус
 	return false;
 }
 
-bool StraightFlush(Player ply, int size) // стрит-флеш
+bool StraightFlush(Player& ply, int size) // стрит-флеш
 {
 	Sort_card(ply.Privat_card, size);
 	int count = 1;
@@ -368,7 +375,7 @@ bool StraightFlush(Player ply, int size) // стрит-флеш
 	return false;
 }
 
-bool Royal_flush(Player ply, int size) // флеш-рояль
+bool Royal_flush(Player& ply, int size) // флеш-рояль
 {
 	Sort_card(ply.Privat_card, size);
 	if (size < 5)
@@ -386,10 +393,10 @@ bool Royal_flush(Player ply, int size) // флеш-рояль
 	return false;
 }
 
-void P_Check_combo(Player ply, int size) // печать комбо игроков
+void P_Check_combo(Player& ply, int size) // печать комбо игроков
 {
 
-	if (Royal_flush(ply,size))
+	if (Royal_flush(ply, size))
 	{
 		cout << "Комбинация : ФЛЕШ РОЯЛЬ!" << endl;
 
@@ -462,7 +469,7 @@ int Start_Combo_val(Player ply, int size) // функция расчета силы комбинации на 
 	return val;
 }
 
-int Combo_val(Player ply, int size) // расчет силы комбинации
+int Combo_val( Player& ply, int size) // расчет силы комбинации
 {
 	int val{};
 	if (Royal_flush(ply, size))
@@ -511,13 +518,13 @@ int Win_loss(Game_table& game, Player& ply1, Player& ply2, int size) // определе
 	int val_p2{};
 	if (size == 2)
 	{
-		 val_p1 = Start_Combo_val(ply1, size);
-		 val_p2 = Start_Combo_val(ply2, size);
+		val_p1 = Start_Combo_val(ply1, size);
+		val_p2 = Start_Combo_val(ply2, size);
 	}
 	else
 	{
-		 val_p1 = Combo_val(ply1, size);
-		 val_p2 = Combo_val(ply2, size);
+		val_p1 = Combo_val(ply1, size);
+		val_p2 = Combo_val(ply2, size);
 	}
 
 	if (val_p1 == val_p2)
@@ -525,12 +532,12 @@ int Win_loss(Game_table& game, Player& ply1, Player& ply2, int size) // определе
 		int vel = Senior_card(game, ply1, ply2);
 		if (vel == 0)
 		{
-			cout <<"Старашя карта игрока "<<ply1.name << " слабее" << endl;
+			
 			return Lose;
 		}
 		else if (vel == 1)
 		{
-			cout << "Старашя карта игрока " << ply1.name << " сильнее" << endl;
+			
 			return Win;
 		}
 		else if (vel == 2)
@@ -540,19 +547,19 @@ int Win_loss(Game_table& game, Player& ply1, Player& ply2, int size) // определе
 	}
 	else if (val_p1 > val_p2)
 	{
-		
+
 		return Win;
 	}
 	else
 	{
-		
+
 		return Lose;
 	}
 }
 
 void Swap_bet(Game_table& game, Player& ply1, Player& ply2, int size) // распределение ставок 
 {
-	int resul = Win_loss(game, ply1, ply2, 2);
+	int resul = Win_loss(game, ply1, ply2, size);
 	if (resul == Draw)
 	{
 		cout << "Ничья ! фишки в количестве " << game.bet << " будут распредлены между игроками !" << endl;;
@@ -568,7 +575,7 @@ void Swap_bet(Game_table& game, Player& ply1, Player& ply2, int size) // распред
 	}
 	else if (resul == Lose)
 	{
-		cout << "Победа  игрока с именем : " << ply2.name << " он забирвет " << game.bet << " фишек" << endl;
+		cout << "Победа  игрока с именем : " << ply2.name << " он забирает " << game.bet << " фишек" << endl;
 		ply2.chips += game.bet;
 		game.bet = 0;
 	}
@@ -576,7 +583,7 @@ void Swap_bet(Game_table& game, Player& ply1, Player& ply2, int size) // распред
 
 void Bet(Game_table& game, Player& ply) // ставка 
 {
-	
+
 	int choise{};
 	Print_chips(ply);
 	cout << "+-------------------+" << endl;
@@ -660,24 +667,24 @@ void Bet(Game_table& game, Player& ply) // ставка
 		}
 	} break;
 
-	default :
+	default:
 	{
 		system("cls");
 		Bet(game, ply);
 	} break;
-	
-}
+
+	}
 }
 
 
-void Print_chips(Player& ply) // печать фишек игрока
+void Print_chips(const Player& ply) // печать фишек игрока
 {
 	cout << "+--------------------+" << endl;
 	cout << "| У вас : " << ply.chips << " фишек" << "  |" << endl;
 	cout << "+--------------------+" << endl;
 }
 
-void Print_bet(Game_table& game) // печать фишек на столе
+void Print_bet(const Game_table& game) // печать фишек на столе
 {
 	cout << "+--------------------+" << endl;
 	cout << "| Ставка : " << game.bet << " фишек" << "  |" << endl;
@@ -731,7 +738,7 @@ void Low_bat(Game_table& game, Player& ply) // поставить остаток фишек
 		system("cls");
 		Low_bat(game, ply);
 	} break;
-		
+
 	}
 
 }
@@ -745,7 +752,7 @@ void Up_bet(Game_table& game, Player& ply) // повышение ставки
 	cout << "| 1. Увеличеть на 15 фишек. |" << endl;
 	cout << "| 2. Увеличеть на 20 фишек. |" << endl;
 	cout << "| 3. Увеличеть на 25 фишек. |" << endl;
-    cout << "+---------------------------+" << endl;
+	cout << "+---------------------------+" << endl;
 	cout << "     Ваше дейсвие : ";
 	cin >> vl;
 
@@ -765,7 +772,7 @@ void Up_bet(Game_table& game, Player& ply) // повышение ставки
 			system("cls");
 			Low_bat(game, ply);
 		}
-		
+
 	} break;
 
 	case 2:
@@ -800,7 +807,7 @@ void Up_bet(Game_table& game, Player& ply) // повышение ставки
 		}
 	} break;
 
-	
+
 
 	default:
 	{
@@ -813,7 +820,7 @@ void Up_bet(Game_table& game, Player& ply) // повышение ставки
 	game.bet += bet;
 	system("cls");
 	cout << endl;
-	cout << "Ставка была повышена до " << bet << " фишек" <<endl ; 
+	cout << "Ставка была повышена до " << bet << " фишек" << endl;
 	cout << endl;
 }
 
@@ -832,7 +839,7 @@ void Print_bet()
 
 
 
-void Coin_flip(Game_table& game, Deck &stack) // подброс монетки и перерасдача карт 
+void Coin_flip(Game_table& game, Deck& stack) // подброс монетки и перерасдача карт 
 {
 	bet = 0;
 	Game_over(game, stack);
@@ -865,7 +872,7 @@ void Game_over(Game_table& game, Deck& stack) // проверка на проигрыш
 {
 	if (game.One.chips == 0)
 	{
-		
+
 		cout << "+----------------------------------------+" << endl;
 		cout << "| У вас конечелись фишки , вы проиграли !|" << endl;
 		cout << "+----------------------------------------+" << endl;
@@ -873,14 +880,14 @@ void Game_over(Game_table& game, Deck& stack) // проверка на проигрыш
 		game.One.chips = 1000;
 		game.Two.chips = 1000;
 		Menu(game, stack);
-	
+
 	}
 
 	if (game.Two.chips == 0)
 	{
-		cout << "+----------------------------------------+"<<endl;
+		cout << "+----------------------------------------+" << endl;
 		cout << "| У вас конечелись фишки , вы проиграли !|" << endl;
-		cout << "+----------------------------------------+"<<endl;
+		cout << "+----------------------------------------+" << endl;
 		system("pause");
 		game.One.chips = 1000;
 		game.Two.chips = 1000;
@@ -956,7 +963,7 @@ void Menu(Game_table& game, Deck& stack) // меню
 		{
 			system("cls");
 			Menu(game, stack);
-        } break;
+		} break;
 		}
 	} while (choise != 3);
 }
@@ -964,7 +971,8 @@ void Menu(Game_table& game, Deck& stack) // меню
 void Start_p1(Game_table& game, Deck& stack)  // дальше пойдут функции разных стадий игры
 {
 	int p1{};
-	Print_Arm1(game);
+	Print_Arm(game.One);
+	Print_bet(game);
 	Start_Check_combo(game.One, 2);
 	Print_bet();
 	cout << "+--------------------+" << endl;
@@ -994,19 +1002,20 @@ void Start_p1(Game_table& game, Deck& stack)  // дальше пойдут функции разных ст
 		Coin_flip(game, stack);
 	} break;
 
-	default :
+	default:
 	{
 		system("cls");
 		Start_p1(game, stack);
 	}
-	
+
 	}
 }
 
 void Start2_p1(Game_table& game, Deck& stack)
 {
 	int p1{};
-	Print_Arm1(game);
+	Print_Arm(game.One);
+	Print_bet(game);
 	Start_Check_combo(game.One, 2);
 	Print_bet();
 	cout << "+---------------------+" << endl;
@@ -1021,7 +1030,7 @@ void Start2_p1(Game_table& game, Deck& stack)
 	case 1:
 	{
 		system("cls");
-		Eq_bet(game, game.One,bet);
+		Eq_bet(game, game.One, bet);
 		system("pause");
 		system("cls");
 		Erl_p2(game, stack);
@@ -1042,7 +1051,7 @@ void Start2_p1(Game_table& game, Deck& stack)
 		Pas_bet(game, game.Two);
 		system("pause");
 		system("cls");
-		Coin_flip(game,stack);
+		Coin_flip(game, stack);
 	} break;
 
 	default:
@@ -1057,7 +1066,8 @@ void Start2_p1(Game_table& game, Deck& stack)
 void Start_p2(Game_table& game, Deck& stack)
 {
 	int p2{};
-	Print_Arm2(game);
+	Print_Arm(game.Two);
+	Print_bet(game);
 	Start_Check_combo(game.Two, 2);
 	Print_bet();
 	cout << "+--------------------+" << endl;
@@ -1091,7 +1101,7 @@ void Start_p2(Game_table& game, Deck& stack)
 		system("cls");
 		Start_p2(game, stack);
 	}
-	
+
 
 	}
 }
@@ -1099,7 +1109,8 @@ void Start_p2(Game_table& game, Deck& stack)
 void Start2_p2(Game_table& game, Deck& stack)
 {
 	int p2{};
-	Print_Arm2(game);
+	Print_Arm(game.Two);
+	Print_bet(game);
 	Start_Check_combo(game.Two, 2);
 	Print_bet();
 	cout << "+---------------------+" << endl;
@@ -1151,8 +1162,9 @@ void Start2_p2(Game_table& game, Deck& stack)
 void Erl_p1(Game_table& game, Deck& stack)
 {
 	int p1{};
-	Table(game);
-	Print_Arm1(game);
+	Table(game,1);
+	Print_Arm(game.One);
+	Print_bet(game);
 	P_Check_combo(game.One, 5);
 	Print_bet();
 	cout << "+---------------------+" << endl;
@@ -1177,7 +1189,7 @@ void Erl_p1(Game_table& game, Deck& stack)
 	case 2:
 	{
 		system("cls");
-		Erl_WL_p1(game,stack);
+		Erl_WL_p1(game, stack);
 	} break;
 
 	case 3:
@@ -1207,7 +1219,7 @@ void Erl_p1(Game_table& game, Deck& stack)
 
 void Erl_WL_p1(Game_table& game, Deck& stack)
 {
-	
+
 	int val{};
 
 	cout << "Запрос игроку : " << game.Two.name << endl;
@@ -1230,7 +1242,7 @@ void Erl_WL_p1(Game_table& game, Deck& stack)
 		system("pause");
 		system("cls");
 		Coin_flip(game, stack);
-    } break;
+	} break;
 
 	case 2:
 	{
@@ -1243,11 +1255,11 @@ void Erl_WL_p1(Game_table& game, Deck& stack)
 		system("cls");
 		Erl_WL_p1(game, stack);
 	}
-	
+
 	}
 }
 
-void Erl_pas_p1(Game_table& game, Deck &stack)
+void Erl_pas_p1(Game_table& game, Deck& stack)
 {
 	int val{};
 	cout << "Запрос игроку : " << game.Two.name << endl;
@@ -1266,7 +1278,7 @@ void Erl_pas_p1(Game_table& game, Deck &stack)
 	{
 		system("cls");
 		Mid_p2(game, stack);
-		
+
 	} break;
 
 	case 2:
@@ -1287,8 +1299,9 @@ void Erl_pas_p1(Game_table& game, Deck &stack)
 void Erl2_p1(Game_table& game, Deck& stack)
 {
 	int p1{};
-	Table(game);
-	Print_Arm1(game);
+	Table(game,1);
+	Print_Arm(game.One);
+	Print_bet(game);
 	P_Check_combo(game.One, 5);
 	Print_bet();
 	cout << "+---------------------+" << endl;
@@ -1307,7 +1320,7 @@ void Erl2_p1(Game_table& game, Deck& stack)
 		system("pause");
 		system("cls");
 		Mid_p2(game, stack);
-		
+
 	} break;
 
 	case 2:
@@ -1335,17 +1348,18 @@ void Erl2_p1(Game_table& game, Deck& stack)
 		Erl2_p1(game, stack);
 	}
 
-	
+
 
 	}
 
 }
-   
+
 void Erl_p2(Game_table& game, Deck& stack)
 {
 	int p2{};
-	Table(game);
-	Print_Arm2(game);
+	Table(game,1);
+	Print_Arm(game.Two);
+	Print_bet(game);
 	P_Check_combo(game.Two, 5);
 	Print_bet();
 	cout << "+---------------------+" << endl;
@@ -1437,7 +1451,7 @@ void Erl_WL_p2(Game_table& game, Deck& stack)
 	}
 }
 
-void Erl_pas_p2(Game_table& game, Deck &stack)
+void Erl_pas_p2(Game_table& game, Deck& stack)
 {
 	int val{};
 	cout << "Запрос игроку : " << game.One.name << endl;
@@ -1477,8 +1491,9 @@ void Erl_pas_p2(Game_table& game, Deck &stack)
 void Erl2_p2(Game_table& game, Deck& stack)
 {
 	int p2{};
-	Table(game);
-	Print_Arm2(game);
+	Table(game,1);
+	Print_Arm(game.Two);
+	Print_bet(game);
 	P_Check_combo(game.Two, 5);
 	Print_bet();
 	cout << "+---------------------+" << endl;
@@ -1533,8 +1548,9 @@ void Erl2_p2(Game_table& game, Deck& stack)
 void Mid_p1(Game_table& game, Deck& stack)
 {
 	int p1{};
-	Table_t_2(game);
-	Print_Arm1(game);
+	Table(game,2);
+	Print_Arm(game.One);
+	Print_bet(game);
 	P_Check_combo(game.One, 6);
 	Print_bet();
 	cout << "+---------------------+" << endl;
@@ -1575,7 +1591,7 @@ void Mid_p1(Game_table& game, Deck& stack)
 	{
 		system("cls");
 		Mid_pas_p1(game, stack);
-		
+
 	} break;
 
 	default:
@@ -1667,8 +1683,9 @@ void Mid_pas_p1(Game_table& game, Deck& stack)
 void Mid2_p1(Game_table& game, Deck& stack)
 {
 	int p1{};
-	Table_t_2(game);
-	Print_Arm1(game);
+	Table(game,2);
+	Print_Arm(game.One);
+	Print_bet(game);
 	P_Check_combo(game.One, 6);
 	Print_bet();
 	cout << "+---------------------+" << endl;
@@ -1723,8 +1740,9 @@ void Mid2_p1(Game_table& game, Deck& stack)
 void Mid_p2(Game_table& game, Deck& stack)
 {
 	int p2{};
-	Table_t_2(game);
-	Print_Arm2(game);
+	Table(game,2);
+	Print_Arm(game.One);
+	Print_bet(game);
 	P_Check_combo(game.Two, 6);
 	Print_bet();
 	cout << "+---------------------+" << endl;
@@ -1744,7 +1762,7 @@ void Mid_p2(Game_table& game, Deck& stack)
 		system("pause");
 		system("cls");
 		Mid2_p1(game, stack);
-		
+
 	} break;
 
 	case 2:
@@ -1766,7 +1784,7 @@ void Mid_p2(Game_table& game, Deck& stack)
 	{
 		system("cls");
 		Mid_pas_p2(game, stack);
-		
+
 	} break;
 
 	default:
@@ -1858,8 +1876,9 @@ void Mid_pas_p2(Game_table& game, Deck& stack)
 void Mid2_p2(Game_table& game, Deck& stack)
 {
 	int p2{};
-	Table_t_2(game);
-	Print_Arm2(game);
+	Table(game,2);
+	Print_Arm(game.Two);
+	Print_bet(game);
 	P_Check_combo(game.Two, 6);
 	Print_bet();
 	cout << "+---------------------+" << endl;
@@ -1914,8 +1933,8 @@ void Mid2_p2(Game_table& game, Deck& stack)
 void Lt_p1(Game_table& game, Deck& stack)
 {
 	int p1{};
-	Table_t_3(game);
-	Print_Arm1(game);
+	Table(game,3);
+	Print_Arm(game.One);
 	P_Check_combo(game.One, 7);
 	Print_bet();
 	cout << "+---------------------+" << endl;
@@ -1935,14 +1954,14 @@ void Lt_p1(Game_table& game, Deck& stack)
 		system("pause");
 		system("cls");
 		Lt2_p2(game, stack);
-		
+
 	} break;
 
 	case 2:
 	{
 		system("cls");
 		Lt_WL_p1(game, stack);
-		
+
 	} break;
 
 	case 3:
@@ -2012,8 +2031,9 @@ void Lt_WL_p1(Game_table& game, Deck& stack)
 void Lt2_p1(Game_table& game, Deck& stack)
 {
 	int p1{};
-	Table_t_3(game);
-	Print_Arm1(game);
+	Table(game,3);
+	Print_Arm(game.One);
+	Print_bet(game);
 	P_Check_combo(game.One, 7);
 	Print_bet();
 	cout << "+---------------------+" << endl;
@@ -2037,7 +2057,7 @@ void Lt2_p1(Game_table& game, Deck& stack)
 		system("cls");
 		Coin_flip(game, stack);
 
-		
+
 	} break;
 
 	case 2:
@@ -2047,7 +2067,7 @@ void Lt2_p1(Game_table& game, Deck& stack)
 		system("pause");
 		system("cls");
 		Lt2_p2(game, stack);
-		
+
 
 	} break;
 
@@ -2074,8 +2094,9 @@ void Lt2_p1(Game_table& game, Deck& stack)
 void Lt_p2(Game_table& game, Deck& stack)
 {
 	int p2{};
-	Table_t_3(game);
-	Print_Arm2(game);
+	Table(game,3);
+	Print_Arm(game.Two);
+	Print_bet(game);
 	P_Check_combo(game.Two, 7);
 	Print_bet();
 	cout << "+---------------------+" << endl;
@@ -2173,8 +2194,9 @@ void Lt_WL_p2(Game_table& game, Deck& stack)
 void Lt2_p2(Game_table& game, Deck& stack)
 {
 	int p2{};
-	Table_t_3(game);
-	Print_Arm2(game);
+	Table(game,3);
+	Print_Arm(game.Two);
+	Print_bet(game);
 	P_Check_combo(game.Two, 7);
 	Print_bet();
 	cout << "+---------------------+" << endl;
