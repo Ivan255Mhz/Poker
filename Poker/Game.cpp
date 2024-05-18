@@ -258,17 +258,28 @@ bool Set(Player& ply, int size) // сет
 bool Straight(Player& ply, int size)  // стрит
 {
 	Sort_card(ply.Privat_card, size);
+
+	int straightCount = 1;
 	for (int i = 0; i < size - 1; ++i)
 	{
-		if (ply.Privat_card[i + 1].sort - ply.Privat_card[i].sort != 1)
+		if (ply.Privat_card[i + 1].sort - ply.Privat_card[i].sort == 1)
+		{
+			straightCount++;
+		}
+		else if (ply.Privat_card[i + 1].sort - ply.Privat_card[i].sort > 1)
+		{
+			straightCount = 1;
+		}
+
+		if (straightCount == 5)
 		{
 			Old_arr(ply.Privat_card, ply.arm, size);
-			return false;
+			return true;
 		}
 	}
 
 	Old_arr(ply.Privat_card, ply.arm, size);
-	return true;
+	return false;
 }
 
 
